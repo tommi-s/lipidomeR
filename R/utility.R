@@ -1,3 +1,4 @@
+#' @importFrom BiocManager install
 #' @importFrom dplyr bind_rows
 #' @importFrom ggplot2 aes
 #' @importFrom ggplot2 aes_string
