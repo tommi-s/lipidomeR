@@ -1,0 +1,23 @@
+Package: lipidomeR
+Type: Package
+Title: Integrative Visualizations of the Lipidome
+Version: 0.0.0.9000
+Author: Tommi Suvitaival
+Maintainer: Tommi Suvitaival <TSUV0001@RegionH.DK>
+Description: lipidomeR provides tools for rapid and reproducible 
+    visualization of associations in high-dimensional lipidomics data. 
+    With lipidomeR, you can create lipidome-wide heatmaps of 
+    statistical associations and differences. 
+    Heatmaps from lipidomeR help you immediately understand complex patterns 
+    in lipidomics data. 
+    The heatmaps are provided with publication-ready quality. 
+    In lipidomeR heatmaps, lipids are categorized by the lipid class and 
+    presented on a two-dimensional map in terms of their size and 
+    level of saturation. 
+    This approach gives the opportunity to interpret lipidomic patterns in 
+    a systematic and intuitive way.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+URL: https://github.com/tommi-s/lipidomeR/
+RoxygenNote: 6.1.1
