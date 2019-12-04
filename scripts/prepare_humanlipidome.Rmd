@@ -1,0 +1,274 @@
+---
+title: "Load and Prepare the humanlipidome Data Set"
+author: "Tommi Suvitaival, Steno Diabetes Center Copenhagen, TSUV0001@RegionH.DK"
+date: "`r Sys.Date()`"
+output: github_document
+---
+
+```{r Setup, include = FALSE}
+
+knitr::opts_chunk$set( echo = TRUE )
+
+```
+
+# Introduction
+
+This document describes, how the lipidomer::humanlipidome data set was prepared.
+
+The data come from the project PR00004 in the Metabolomics Workbench.
+
+## Citation of the Data
+
+### Publication
+
+Quehenberger, O. et al. Lipidomics reveals a remarkable diversity of lipids in human plasma. J Lipid Res. 51, 3299-3305 (2010). https://doi.org/10.1194/jlr.M009449
+
+### Repository
+
+This data is available at the NIH Common Fund's National Metabolomics Data Repository (NMDR) website, the Metabolomics Workbench, https://www.metabolomicsworkbench.org, where it has been assigned Project ID PR000004. The data can be accessed directly via it's Project DOI: 10.21228/M8MW26 This work is supported by NIH grant, U2C- DK119886.
+
+
+# Download the Data
+
+* Download the data set in mzTab format from the project PR00004 in the Metabolomics Workbench.
+  
+## Specify the File Paths
+  
+```{r Paths}
+
+url.download <-
+  c(
+    "https://www.metabolomicsworkbench.org/data/study_textformat_view.php?STUDY_ID=ST000004&ANALYSIS_ID=AN000006&MODE=d",
+    "https://www.metabolomicsworkbench.org/data/study_textformat_view.php?STUDY_ID=ST000004&ANALYSIS_ID=AN000011&MODE=d",
+    "https://www.metabolomicsworkbench.org/data/study_textformat_view.php?STUDY_ID=ST000004&ANALYSIS_ID=AN000010&MODE=d",
+    "https://www.metabolomicsworkbench.org/data/study_textformat_view.php?STUDY_ID=ST000004&ANALYSIS_ID=AN000007&MODE=d",
+    "https://www.metabolomicsworkbench.org/data/study_textformat_view.php?STUDY_ID=ST000004&ANALYSIS_ID=AN000005&MODE=d",
+    "https://www.metabolomicsworkbench.org/data/study_textformat_view.php?STUDY_ID=ST000004&ANALYSIS_ID=AN000004&MODE=d",
+    "https://www.metabolomicsworkbench.org/data/study_textformat_view.php?STUDY_ID=ST000004&ANALYSIS_ID=AN000009&MODE=d",
+    "https://www.metabolomicsworkbench.org/data/study_textformat_view.php?STUDY_ID=ST000004&ANALYSIS_ID=AN000008&MODE=d"
+    
+  )
+
+```
+
+## Download the Data
+
+```{r Download}
+
+data.loaded <-
+  lapply(
+    X = url.download,
+    FUN = readLines
+  )
+
+```
+
+# Prepare the Data
+
+* Reshape the data into value-unit pairs
+* Convert all values to the unit umol/mL
+* Bind data from multiple measurements
+* Clean up the lipid names
+* Subset the lipids that can be enumerated by size and saturation
+* Save the resulting data set
+
+## Reshape the Data into Value-Unit Pairs
+
+```{r Reshape}
+
+data <-
+  lapply(
+    X = data.loaded,
+    FUN =
+      function( x ) {
+        
+        unit <- 
+          x[
+            grep(
+              x = x,
+              pattern = "MS_METABOLITE_DATA:UNITS"
+            )
+            ]
+        
+        unit <- stringr::str_replace(
+          string = unit,
+          pattern = "MS_METABOLITE_DATA:UNITS",
+          replacement = ""
+        )
+        
+        unit <- stringr::str_trim( string = unit )
+        
+        line.start <- which( x == "MS_METABOLITE_DATA_START" ) + 3
+        line.end <- which( x == "MS_METABOLITE_DATA_END" ) - 1
+        
+        x.data <- x[ line.start : line.end ]
+        
+        x.data <-
+          stringr::str_replace(
+            string = x.data,
+            pattern = "\\( ",
+            replacement = "("
+          )
+        
+        location.value <-
+          stringr::str_locate(
+            string = x.data,
+            pattern = "\\s[0-9]+\\.?([0-9]+)?"
+          )
+        
+        y <-
+          data.frame(
+            Name =
+              stringr::str_sub(
+                string = x.data,
+                start = 1,
+                end = location.value[ , "start" ] - 1
+              ),
+            Value =
+              stringr::str_sub(
+                string = x.data,
+                start = location.value[ , "start" ] + 1,
+                end = location.value[ , "end" ]
+              ),
+            stringsAsFactors = FALSE
+          )
+        
+        y$"Value" <- as.numeric( y$"Value" )
+        
+        y <- list( data = y, unit = unit )
+        
+        return( y )
+        
+      }
+  )
+
+
+```
+
+## Convert All Values to the Same Unit of umol/mL
+
+```{r Unit}
+
+data <-
+  lapply(
+    X = data,
+    FUN =
+      function( x ) {
+        
+        y <- x$"data"
+        
+        if ( x$"unit" == "pmol/ml" ) {
+          
+          y$"Value" <- y$"Value" * 0.000001
+          
+        } else if ( x$"unit" == "nmol/ml" ) {
+          
+          y$"Value" <- y$"Value" * 0.001
+          
+        }
+        
+        return( y )
+        
+      }
+  )
+
+
+```
+
+## Bind the Data from Multiple Measurements
+
+```{r Bind}
+
+data <- dplyr::bind_rows( data )
+
+data <- data[ !is.na( data$"Name" ), ]
+
+```
+
+## Clean Up the Lipid Names
+
+```{r Clean-Names}
+
+is.C.name <-
+  stringr::str_detect(
+    string = data$"Name",
+    pattern = "C[0-9]+"
+  )
+
+if ( any( is.C.name ) ) {
+  
+  name.split <-
+    stringr::str_split_fixed(
+      string = data[ is.C.name, "Name" ],
+      pattern = " ",
+      n = 2
+    )
+  
+  number <-
+    stringr::str_replace_all(
+      string = name.split[ , 1 ],
+      pattern = "[A-Z]+",
+      replacement = ""
+    )
+  
+  number.split <-
+    stringr::str_split_fixed(
+      string = number,
+      pattern = ":",
+      n = 2
+    )
+  
+  number.split[ which( number.split[ , 2 ] == "" ), 2 ] <- "0"
+  
+  name.split[ , 2 ] <-
+    stringr::str_replace(
+      string = name.split[ , 2 ],
+      pattern = "Sphingomyelin",
+      replacement = "SM"
+    )
+  
+  data[ is.C.name, "Name" ] <-
+    paste0(
+      name.split[ , 2 ],
+      "(",
+      number.split[ , 1 ],
+      ":",
+      number.split[ , 2 ],
+      ")"
+    )
+  
+}
+      
+```
+
+## Subset the Lipids That Can Be Enumerated to Size and Saturation
+
+```{r Subset-Enumerable}
+
+humanlipidome <-
+  data[ grepl( x = data$"Name", pattern = "[A-Za-z]+\\(.+\\:.+\\)" ), ]
+
+colnames( humanlipidome )[ colnames( humanlipidome ) == "Value" ] <- 
+  "Concentration"
+
+```
+
+# Save the Resulting Data
+
+```{r Save}
+
+save(
+  humanlipidome,
+  file = "../data/humanlipidome.rda",
+  compress = "xz"
+)
+
+```
+
+# SessionInfo
+
+```{r SessionInfo}
+
+utils::sessionInfo()
+
+```
