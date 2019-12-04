@@ -25,4 +25,18 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 URL: https://github.com/tommi-s/lipidomeR/
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
+Depends:
+    R (>= 3.3.0)
+biocViews:
+Imports:
+    BiocManager,
+    dplyr,
+    ggplot2,
+    knitr,
+    limma,
+    reshape2,
+    shadowtext,
+    stringr,
+    tableone,
+    tidyr
