@@ -1,3 +1,116 @@
+#' Create lipidome-wide heatmaps of model statistics
+#'
+#' Use this function to creating heatmaps of model statistics from
+#'    the output of the \code{compute_models_with_limma()} function or related
+#'    functions (\code{compute_F_test_with_limma()} and
+#'    \code{compute_post_hoc_tests_with_limma()}).
+#' @param x (Required) list of output from
+#'    the \code{compute_models_with_limma()} function or related functions.
+#' @param names.mapping (Optional) mapping of lipid names from
+#'    the \code{map_lipid_names()} function.
+#' @param axis.x.carbons (Optional) \code{TRUE} or \code{FALSE}: Should
+#'    the lipid size (i.e., number of carbon atoms in the fatty acid chain) be
+#'    presented on the x-axis or y-axis?
+#' @param class.facet (Optional) character string with possible values
+#'    \code{"col"}, \code{"row"} or \code{"wrap"}:
+#'    Present lipid classes as panels organized into columns, rows or into a
+#'    wrapped layout spanning over multiple rows and columns. The alternative
+#'    \code{"wrap"} is only available with \code{plot.infividual = TRUE}.
+#' @param class.subset 8optional) character vector specifying a subset of
+#'    the lipid classes (e.g., \code{c( "PC", "SM", "TG" )}). Same outcome
+#'    can be achieved with the argument \code{omit.class}.
+#' @param F.test (Optional) \code{TRUE} or \code{FALSE}: Should the result of
+#'    an F-test be visualized instead of individual model coefficients?
+#'    Result from the function \code{compute_F_test_with_limma()} needs to be
+#'    provided as argument \code{x} for \code{heatmap_lipidome_from_limma()}
+#'    along with the argument \code{F.test = TRUE}.
+#' @param omit.class (Optional) character vector of lipid classes omitted from
+#'    the visualization (e.g., \code{c( "PC", "SM", "TG" )}).
+#' @param omit.factor (Optional) character vector of lipid classes omitted from
+#'    the visualization (e.g., \code{c( "Time" )}).
+#' @param order.factor (Optional) \code{TRUE} or \code{FALSE}: Sort the factor
+#'    panels alphabetically?
+#' @param p.val.thresholds (Optional) numeric vector with increasing values of
+#'    highlighting thresholds for multiple-testing-corrected p-values.
+#'    For instance, \code{c( 0.01, 0.05, 0.1 )} gives distinct highlighting of
+#'    associations in the ranges \eqn{p < 0.01}, \eqn{0.01 \geq p < 0.05}, and
+#'    \eqn{0.05 \geq p < 0.1}. If the number of these categories is changed from
+#'    the default value, also the argument \code{p.val.labels} needs to be
+#'    modified to match it.
+#' @param p.val.labels (Optional) numeric vector of point characters for the
+#'    p-value highlighting categories specified in the argument
+#'    \code{p.val.thresholds}. The values need to be compatible with
+#'    the function \code{ggplot2::scale_shape_manual()}.
+#'    If the number of these labels is changed from the default value, also
+#'    the argument \code{p.val.thresholds} needs to be modified to match it.
+#' @param p.val.label.bg.size (Optional) numeric value to scale the size of
+#'    the colored background of the symbols that indicate values with
+#'    statistical significance. The background is used to ensure that
+#'    the white symbols are visible also when the color of a heatmap
+#'    rectangle is of a bleak color.
+#' @param p.val.label.size (Optional) numeric value to scale the size of the
+#'    symbols that indicate values with statistical significance.
+#' @param p.adj.method (Optional) name of the method to correct p-values for
+#'    multiple testing. Accepted values are as in the function
+#'    \code{stats::p.adjust()}.
+#' @param plot.individual (Optional) \code{TRUE} or \code{FALSE}: Create
+#'    specific figures for each coefficient of the model? For models with many
+#'    independent variables, this may take some time to complete.
+#' @param plot.all (Optional) \code{TRUE} or \code{FALSE}: Create
+#'    a combined figure of all the coefficients of the model? For models with many
+#'    independent variables, this may lead to too busy a figure.
+#' @param print.figure (Optional) \code{TRUE} or \code{FALSE}: Print created
+#'    figure(s) to the standard output? Note that when
+#'    \code{plot.individual = TRUE}, multiple figures will be printed
+#'    consecutively.
+#' @param print.formula (Optional) \code{TRUE} or \code{FALSE}: Add
+#'    the model formula as a title to the figure? We recommend to use
+#'    \code{print.formula = TRUE} for improved understandability and
+#'    reproducibility.
+#' @param formula.width (Optional) numeric value to specify the width of a line
+#'    in the model formula. Relevant only if \code{print.formula = TRUE}.
+#' @param legend.key.size.multiplier (Optional) numeric value to scale the size
+#'    of the figure (key) legends.
+#' @param range.min.N.carbons (Optional) numeric value to specify the minimum
+#'    range of the axis showing the lipid size (number of carbon atoms in the
+#'    fatty acid chains). This value can be increased from the default value to
+#'    improve readability in situtions, where there are lipid classes with
+#'    little or no variation in the lipid size.
+#' @param range.min.N.double.bonds (Optional) numeric value to specify
+#'    the minimum range of the axis showing the lipid saturation (number of
+#'    double bonds in the fatty acid chains). This value can be increased from
+#'    the default value to improve readability in situtions, where there are
+#'    lipid classes with little or no variation in the lipid saturation.
+#' @param scales (Optional) character string with possible values
+#'    \code{"fixed"}, \code{"free"}, \code{"free_x"} or \code{"free_y"}. This
+#'    argument specifies, whether the axes in multiple sub-heatmaps will be in
+#'    the same scale (\code{"fixed"}) or in a scale specific to each sub-figure.
+#'    See the function \code{ggplot2::facet_grid()} for details.
+#' @param shadowtext (Optional) \code{TRUE} or \code{FALSE}: Should an
+#'    alternative method of statistical significance highlighting be used in
+#'    the figure? if \code{TRUE}, highlighting will be based on the function
+#'    \code{shadowtext::geom_shadowtext()}.
+#' @param space (Optional) character string with possible values
+#'    \code{"fixed"}, \code{"free"}, \code{"free_x"} or \code{"free_y"}.
+#'    This argument specifies, whether the sub-heatmaps will be of identical
+#'    size (\code{"fixed"}) or not.
+#'    See the function \code{ggplot2::facet_grid()} for details.
+#' @param verbose (Optional) \code{TRUE} or \code{FALSE}: Print information
+#'    about the progress of the function call?
+#' @param wrap.contrast.name (Optional) \code{TRUE} or \code{FALSE}: Wrap
+#'    the name of a contrast to multiple lines to ensure readability?
+#' @param baseline.adjusted \code{TRUE} or \code{FALSE}: Is the model object
+#'    that is specified as argument \code{x} a baseline-adjusted regression
+#'    model? (Note: this model type is not yet provided in the package.)
+#' @param survival (Optional) \code{TRUE} or \code{FALSE}: Is the model object
+#'    that is specified as argument \code{x} a survival model?
+#'    (Note: this model type is not yet provided in the package.)
+#' @return List of lipidomeR heatmap figure(s).
+#' @seealso compute_models_with_limma() for computing the argument \code{x}
+#' for this function.
+#'
+#' @export
+#'
 heatmap_lipidome_from_limma <-
   function(
     x,
@@ -6,7 +119,6 @@ heatmap_lipidome_from_limma <-
     baseline.adjusted = FALSE,
     class.facet = "row",
     class.subset = NULL,
-    factor.facet = "auto",
     F.test = FALSE,
     omit.class = NULL,
     omit.factor = NULL,
@@ -900,196 +1012,192 @@ heatmap_lipidome_from_limma <-
 
       if ( plot.all ) {
 
-        if ( !is.null( factor.facet ) ) {
+        data.plot <- y[ y$"Factor" != "(Intercept)", , drop = FALSE ]
 
-          data.plot <- y[ y$"Factor" != "(Intercept)", , drop = FALSE ]
+        if ( wrap.contrast.name ) {
 
-          if ( wrap.contrast.name ) {
+          levels( data.plot$"Factor" ) <-
+            stringr::str_replace(
+              string = levels( data.plot$"Factor" ),
+              pattern = "\\s\\-\\s",
+              replacement = "\nvs.\n"
+            )
 
-            levels( data.plot$"Factor" ) <-
-              stringr::str_replace(
-                string = levels( data.plot$"Factor" ),
-                pattern = "\\s\\-\\s",
-                replacement = "\nvs.\n"
+        } else {
+
+          levels( data.plot$"Factor" ) <-
+            stringr::str_replace(
+              string = levels( data.plot$"Factor" ),
+              pattern = "\\s\\-\\s",
+              replacement = " vs. "
+            )
+
+        }
+
+        if ( axis.x.carbons ) {
+
+          plot.i <-
+            ggplot2::ggplot(
+              data = data.plot,
+              mapping =
+                ggplot2::aes(
+                  x = N.carbons,
+                  y = N.double.bonds,
+                  fill = Coefficient
+                )
+            ) +
+            ggplot2::ylab( label = "Number of fatty-acid double bonds" ) +
+            ggplot2::xlab( label = "Number of fatty-acid carbon atoms" )
+
+        } else {
+
+          plot.i <-
+            ggplot2::ggplot(
+              data = data.plot,
+              mapping =
+                ggplot2::aes(
+                  x = N.double.bonds,
+                  y = N.carbons,
+                  fill = Coefficient
+                )
+            ) +
+            ggplot2::xlab( label = "Number of fatty-acid double bonds" ) +
+            ggplot2::ylab( label = "Number of fatty-acid carbon atoms" )
+
+        }
+
+        plot.i <-
+          plot.i +
+          ggplot2::theme_dark() +
+          ggplot2::geom_tile() +
+          ggplot2::scale_fill_gradient2(
+            low = "blue",
+            high = "red"
+          ) +
+          ggplot2::theme(
+            legend.position = "top",
+            legend.text = ggplot2::element_text( angle = 45 )
+          ) +
+          ggplot2::theme(
+            axis.text.x =
+              ggplot2::element_text(
+                angle = 45,
+                vjust = 0.5
               )
+          ) +
+          ggplot2::theme( strip.text.y = ggplot2::element_text( angle = 0 ) ) +
+          ggplot2::scale_x_continuous(
+            breaks = get_integer_breaks,
+            expand = ggplot2::expand_scale( mult = 0, add = 0.5 )
+          ) +
+          ggplot2::scale_y_continuous(
+            breaks = get_integer_breaks,
+            expand = ggplot2::expand_scale( mult = 0, add = 0.5 )
+          )
 
-          } else {
-
-            levels( data.plot$"Factor" ) <-
-              stringr::str_replace(
-                string = levels( data.plot$"Factor" ),
-                pattern = "\\s\\-\\s",
-                replacement = " vs. "
-              )
-
-          }
-
-          if ( axis.x.carbons ) {
-
-            plot.i <-
-              ggplot2::ggplot(
-                data = data.plot,
-                mapping =
-                  ggplot2::aes(
-                    x = N.carbons,
-                    y = N.double.bonds,
-                    fill = Coefficient
-                  )
-              ) +
-              ggplot2::ylab( label = "Number of fatty-acid double bonds" ) +
-              ggplot2::xlab( label = "Number of fatty-acid carbon atoms" )
-
-          } else {
-
-            plot.i <-
-              ggplot2::ggplot(
-                data = data.plot,
-                mapping =
-                  ggplot2::aes(
-                    x = N.double.bonds,
-                    y = N.carbons,
-                    fill = Coefficient
-                  )
-              ) +
-              ggplot2::xlab( label = "Number of fatty-acid double bonds" ) +
-              ggplot2::ylab( label = "Number of fatty-acid carbon atoms" )
-
-          }
+        if ( shadowtext ) {
 
           plot.i <-
             plot.i +
-            ggplot2::theme_dark() +
-            ggplot2::geom_tile() +
-            ggplot2::scale_fill_gradient2(
-              low = "blue",
-              high = "red"
+            shadowtext::geom_shadowtext(
+              mapping = ggplot2::aes( label = p.adj.range.neg ),
+              color = "blue",
+              bg.colour = "white",
+              show.legend = TRUE
             ) +
-            ggplot2::theme(
-              legend.position = "top",
-              legend.text = ggplot2::element_text( angle = 45 )
-            ) +
-            ggplot2::theme(
-              axis.text.x =
-                ggplot2::element_text(
-                  angle = 45,
-                  vjust = 0.5
-                )
-            ) +
-            ggplot2::theme( strip.text.y = ggplot2::element_text( angle = 0 ) ) +
-            ggplot2::scale_x_continuous(
-              breaks = get_integer_breaks,
-              expand = ggplot2::expand_scale( mult = 0, add = 0.5 )
-            ) +
-            ggplot2::scale_y_continuous(
-              breaks = get_integer_breaks,
-              expand = ggplot2::expand_scale( mult = 0, add = 0.5 )
+            shadowtext::geom_shadowtext(
+              mapping = ggplot2::aes( label = p.adj.range.pos ),
+              color = "red",
+              bg.colour = "white",
+              show.legend = TRUE
             )
 
-          if ( shadowtext ) {
+        } else {
 
-            plot.i <-
-              plot.i +
-              shadowtext::geom_shadowtext(
-                mapping = ggplot2::aes( label = p.adj.range.neg ),
-                color = "blue",
-                bg.colour = "white",
-                show.legend = TRUE
-              ) +
-              shadowtext::geom_shadowtext(
-                mapping = ggplot2::aes( label = p.adj.range.pos ),
-                color = "red",
-                bg.colour = "white",
-                show.legend = TRUE
-              )
+          plot.i <-
+            plot.i +
+            ggplot2::geom_point(
+              mapping =
+                ggplot2::aes_string(
+                  color = "Significant_Coefficient_Sign"
+                ),
+              na.rm = TRUE,
+              shape = 19
+            ) +
+            ggplot2::scale_color_manual(
+              values = c( "blue", "red" ),
+              drop = FALSE,
+              na.translate = FALSE
+            ) +
+            ggplot2::geom_point(
+              mapping =
+                ggplot2::aes_string(
+                  shape = "P_Value"
+                ),
+              color = "white",
+              size = p.val.label.size
+            ) +
+            ggplot2::scale_shape_manual(
+              values = p.val.labels,
+              drop = FALSE,
+              na.translate = FALSE
+            ) +
+            ggplot2::guides(
+              fill = ggplot2::guide_colorbar( order = 1 ),
+              color =
+                ggplot2::guide_legend(
+                  order = 2,
+                  override.aes = list( size = legend.key.size.multiplier * p.val.label.bg.size ),
+                  title = "Sign of\nSignificant\nCoefficient"
+                ),
+              shape =
+                ggplot2::guide_legend(
+                  order = 3,
+                  override.aes = list( size = legend.key.size.multiplier * p.val.label.size ),
+                  title = "P-Value"
+                )
+            )
 
-          } else {
+        }
 
-            plot.i <-
-              plot.i +
-              ggplot2::geom_point(
-                mapping =
-                  ggplot2::aes_string(
-                    color = "Significant_Coefficient_Sign"
-                  ),
-                na.rm = TRUE,
-                shape = 19
-              ) +
-              ggplot2::scale_color_manual(
-                values = c( "blue", "red" ),
-                drop = FALSE,
-                na.translate = FALSE
-              ) +
-              ggplot2::geom_point(
-                mapping =
-                  ggplot2::aes_string(
-                    shape = "P_Value"
-                  ),
-                color = "white",
-                size = p.val.label.size
-              ) +
-              ggplot2::scale_shape_manual(
-                values = p.val.labels, # c( 8, 4, 3 ), # levels( y$"p.adj.range" ), # c( "#", "x", "*" ),
-                drop = FALSE,
-                na.translate = FALSE
-              ) +
-              ggplot2::guides(
-                fill = ggplot2::guide_colorbar( order = 1 ),
-                color =
-                  ggplot2::guide_legend(
-                    order = 2,
-                    override.aes = list( size = legend.key.size.multiplier * p.val.label.bg.size ),
-                    title = "Sign of\nSignificant\nCoefficient"
-                  ),
-                shape =
-                  ggplot2::guide_legend(
-                    order = 3,
-                    override.aes = list( size = legend.key.size.multiplier * p.val.label.size ),
-                    title = "P-Value"
-                  )
-              )
+        if ( print.formula ) {
 
-          }
+          plot.i <-
+            plot.i +
+            ggplot2::ggtitle( label = printout.formula )
 
-          if ( print.formula ) {
+        }
 
-            plot.i <-
-              plot.i +
-              ggplot2::ggtitle( label = printout.formula )
+        if ( class.facet == "col" ) {
 
-          }
+          plot.i <-
+            plot.i +
+            ggplot2::facet_grid(
+              rows = ggplot2::vars( Factor ),
+              cols = ggplot2::vars( Class ),
+              scales = scales,
+              space = space
+            )
 
-          if ( class.facet == "col" ) {
+        } else {
 
-            plot.i <-
-              plot.i +
-              ggplot2::facet_grid(
-                rows = ggplot2::vars( Factor ),
-                cols = ggplot2::vars( Class ),
-                scales = scales,
-                space = space
-              )
+          plot.i <-
+            plot.i +
+            ggplot2::facet_grid(
+              cols = ggplot2::vars( Factor ),
+              rows = ggplot2::vars( Class ),
+              scales = scales,
+              space = space
+            )
 
-          } else {
+        }
 
-            plot.i <-
-              plot.i +
-              ggplot2::facet_grid(
-                cols = ggplot2::vars( Factor ),
-                rows = ggplot2::vars( Class ),
-                scales = scales,
-                space = space
-              )
+        figures[[ "All" ]] <- plot.i
 
-          }
+        if ( print.figure ) {
 
-          figures[[ "All" ]] <- plot.i
-
-          if ( print.figure ) {
-
-            print( plot.i )
-            print( p.val.cat )
-
-          }
+          print( plot.i )
+          print( p.val.cat )
 
         }
 

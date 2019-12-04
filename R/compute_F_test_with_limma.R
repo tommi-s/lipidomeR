@@ -1,6 +1,32 @@
+#' Compute an F-test for a multi-level factor independent variable
+#'
+#' Use this to achieve analysis of variance (ANOVA) or analysis of covariance
+#'    (ANCOVA). The F-test is based on a model produced by the function
+#'    \code{compute_models_from_limma()}.
+#'    To use this function, first call the function
+#'    \code{compute_models_from_limma()}.
+#'
+#' @param x (Required) list of models for which the test will be done.
+#'    The F-test will be computed for the first independent variable that was
+#'    specified in the \code{independent.variables} argument to the
+#'    function \code{compute_models_from_limma()}.
+#' @param p.adj.threshold (Optional) numeric value specifying the threshold
+#'    for statistical significance of difference after correction for multiple
+#'    testing.
+#' @param print.table (Optional) \code{TRUE} or \code{FALSE}: Print the results
+#'    of the test?
+#'
+#' @return List \code{x} supplemented by the results of the F-test.
+#'
+#' @seealso compute_models_with_limma() for the model computation step that is
+#'    required prior to calling this function.
+#' @seealso compute_post_hoc_test_with_limma() for the pairwise post-hoc
+#'    comparisons that may follow the F-test done with this function.
+#'
+#' @export
+#'
 compute_F_test_with_limma <-
   function( x,
-            target.variable,
             p.adj.threshold = 0.05,
             print.table = TRUE ) {
 

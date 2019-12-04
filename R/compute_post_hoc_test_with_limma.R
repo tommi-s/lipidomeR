@@ -1,3 +1,41 @@
+#' Compute pairwise post-hoc comparisons for a multi-level factor
+#'
+#' Use this function to achieve the post-hoc comparisons between the
+#'    multiple levels of an independent variable. These comparisons follow
+#'    analysis of variance (ANOVA) or analysis of covariance (ANCOVA).
+#'    The pairwise comparisons are based on a result of an F-test produced by
+#'    the function \code{compute_F_test_with_limma()}.
+#'    To use this function, first call the functions
+#'    \code{compute_models_from_limma()} and
+#'    \code{compute_F_test_with_limma()} consecutively.
+#'
+#' @param x (Required) list of models for which the test will be done.
+#'    The pairwise comparisons will be computed using the levels of the first
+#'    independent variable that was specified in
+#'    the \code{independent.variables} argument to the
+#'    function \code{compute_models_from_limma()}. The comparisons will be
+#'    computed for the lipids that had an F-test result of statistical
+#'    significance from the function \code{compute_F_test_with_limma()}.
+#' @param p.adj.threshold (Optional) numeric value specifying the threshold of
+#'    statistical significance in the pairwise comparisons after a correction
+#'    for multiple testing. We recommend to leave this argument unfilled,
+#'    leading to the same threshold to be used as in the preceeding F-test.
+#' @param remap.level.names (Optional) \code{TRUE} or \code{FALSE}: Should
+#'    the levels of the factor independent variable be re-mapped? This feature
+#'    can be used to solve a problem with the factor levels, which may occur
+#'    in some versions of the \code{limma} package. We recommend to keep this
+#'    argument unchanged from the default value.
+#'
+#' @return List \code{x} supplemented by the results of the pairwise
+#'    post-hoc comparisons.
+#'
+#' @seealso compute_models_with_limma() for the model computation step that is
+#'    required prior to calling this function.
+#' @seealso compute_F_test_with_limma() for the F-test step that is
+#'    required prior to calling this function.
+#'
+#' @export
+#'
 compute_post_hoc_test_with_limma <-
   function(
     x,

@@ -2,13 +2,19 @@
 % Please edit documentation in R/compute_models_with_limma.R
 \name{compute_models_with_limma}
 \alias{compute_models_with_limma}
-\title{Compute multiple regression models that can be directly supplied to
-   the visualization functions of the lipidomeR.}
+\title{Compute lipid-specific regression models}
 \usage{
-compute_models_with_limma(x, dependent.variables, independent.variables,
-  random.effect = NULL, formula = NULL, F.test = FALSE,
-  print.table1 = FALSE, scale.dependent.variables = TRUE,
-  scale.independent.variables = FALSE)
+compute_models_with_limma(
+  x,
+  dependent.variables,
+  independent.variables,
+  random.effect = NULL,
+  formula = NULL,
+  F.test = FALSE,
+  print.table1 = FALSE,
+  scale.dependent.variables = TRUE,
+  scale.independent.variables = FALSE
+)
 }
 \arguments{
 \item{x}{(Required) data matrix.}
@@ -51,6 +57,10 @@ List of regression results the that can be directly supplied as
    other visualization functions of the lipidomeR.
 }
 \description{
-Compute multiple regression models that can be directly supplied to
-   the visualization functions of the lipidomeR.
+Use this function to computing multiple regression models that can be
+   directly supplied to the visualization functions of the lipidomeR.
+}
+\seealso{
+heatmap_lipidome_from_limma() for visualizing the output of this
+   function.
 }

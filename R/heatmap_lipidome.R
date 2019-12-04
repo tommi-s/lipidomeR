@@ -53,7 +53,8 @@ heatmap_lipidome <-
       } else {
 
         x <-
-          reshape2::melt.data.frame(
+          reshape2::melt(
+            # reshape2::melt.data.frame( ?
             data = x,
             id.vars = x.names,
             measure.vars = x.variables,

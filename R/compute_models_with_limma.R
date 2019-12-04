@@ -1,5 +1,8 @@
-#' Compute multiple regression models that can be directly supplied to
-#'    the visualization functions of the lipidomeR.
+#' Compute lipid-specific regression models
+#'
+#' Use this function to computing multiple regression models that can be
+#'    directly supplied to the visualization functions of the lipidomeR.
+#'
 #' @param x (Required) data matrix.
 #' @param dependent.variables
 #'    (Required) vector of names of dependent variables.
@@ -28,9 +31,16 @@
 #' @param scale.independent.variables (Optional) \code{TRUE} or \code{FALSE}:
 #'    Should independent variables be scaled to zero-mean and unit-variance
 #'    prior to model fitting?
+#'
 #' @return List of regression results the that can be directly supplied as
 #'    an argument to the function \code{heatmap_lipidome_from_limma()} and
 #'    other visualization functions of the lipidomeR.
+#'
+#' @seealso heatmap_lipidome_from_limma() for visualizing the output of this
+#'    function.
+#'
+#' @export
+#'
 compute_models_with_limma <-
   function(
     x,
