@@ -26,8 +26,24 @@ This data set contains concentrations of 403 named lipids in human plasma
    standard reference material (SRM 1950).
 }
 \examples{
+# Load the data set.
 data( humanlipidome )
-head( humanlipidome )
+# Transform the concentrations into log-10 scale.
+humanlipidome$'Concentration_log10_umol_per_mL' <-
+   log10( humanlipidome$'Concentration' )
+# Enumerate the lipid names into values.
+names.mapping <- map_lipid_names( x = humanlipidome$'Name' )
+# Create the lipidomeR heatmap of lipid concentrations.
+heatmap_lipidome(
+   x = humanlipidome[ , c( "Name", "Concentration_log10_umol_per_mL" ) ],
+   class.facet = "wrap",
+   names.mapping = names.mapping,
+   x.names = "Name",
+   fill.limits = range( x = humanlipidome$"Concentration_log10_umol_per_mL", na.rm = TRUE ),
+   fill.midpoint = sum( range( x = humanlipidome$"Concentration_log10_umol_per_mL", na.rm = TRUE ) ) / 2,
+   melt.value.name = "Concentration_umol_per_mL_log10",
+   scales = "free"
+)
 
 }
 \references{

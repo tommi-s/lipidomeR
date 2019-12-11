@@ -25,8 +25,9 @@ Quehenberger, O. et al. Lipidomics reveals a remarkable diversity of lipids in h
 
 ### Repository
 
-This data is available at the NIH Common Fund's National Metabolomics Data Repository (NMDR) website, the Metabolomics Workbench, https://www.metabolomicsworkbench.org, where it has been assigned Project ID PR000004. The data can be accessed directly via it's Project DOI: 10.21228/M8MW26 This work is supported by NIH grant, U2C- DK119886.
+This data is available at the NIH Common Fund's National Metabolomics Data Repository (NMDR) website, the Metabolomics Workbench, https://www.metabolomicsworkbench.org, where it has been assigned Project ID PR000004. The data can be accessed directly via it's Project DOI: 10.21228/M8MW26 This work is supported by NIH grant, U2C-DK119886.
 
+URL: http://dx.doi.org/10.21228/M8MW26
 
 # Download the Data
 
