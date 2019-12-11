@@ -1,3 +1,21 @@
+#' Enumerate lipid names into values about lipid class, size and saturation
+#'
+#' Use this function to create a "mapping" of the lipids, which can be used to
+#'    creating lipidomeR heatmaps.
+#'
+#' @param x (Required) character vector of lipid names
+#'
+#' @return Data frame with lipid names in various formats for R and
+#'    the enumerated values of lipid class (Class), lipid size (N.carbons) and
+#'    lipid unsaturation (N.double.bonds).
+#'
+#' @seealso heatmap_lipidome_from_limma() for creating lipidomeR heatmaps of
+#'    regression model results based on the output of this function.
+#' @seealso heatmap_lipidome() for creating lipidomeR heatmaps of any
+#'    lipid-specific values based on the output of this function.
+#'
+#' @export
+#'
 map_lipid_names <-
   function( x ) {
 
