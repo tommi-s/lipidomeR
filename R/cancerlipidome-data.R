@@ -55,6 +55,6 @@
 #'        scales = "free",
 #'        space = "free"
 #'    )
-#' print( figure.output$"figures"[[ 2 ]] )
+#' print( figure.output[[ "GroupCancer" ]] )
 #'
 "cancerlipidome"
