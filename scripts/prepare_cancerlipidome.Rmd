@@ -158,12 +158,27 @@ sample.info <-
 
 sample.info[ sample.info$"Stage" == "NA", "Stage" ] <- NA
 sample.info[ grepl( x = sample.info$"Type", pattern = "NA" ), "Type" ] <- NA
+sample.info$"Stage" <- droplevels( sample.info$"Stage" )
 
 sample.info <-
   sample.info[ 
     ,
     !grepl( x = colnames( sample.info ), pattern = "^V[0-9]" )
     ]
+
+sample.info$"Race" <-
+  stringr::str_replace_all(
+    string = sample.info$"Race",
+    pattern = "\\.",
+    replacement = "-"
+  )
+
+sample.info$"Type" <-
+  stringr::str_replace_all(
+    string = sample.info$"Type",
+    pattern = "\\.",
+    replacement = "-"
+  )
 
 ```
 
@@ -296,29 +311,6 @@ colnames( data ) <-
 
 names.duplicates <- names( which( table( colnames( data ) ) > 1 ) )
 
-# idx.omitted <-
-#   lapply(
-#     X = names.duplicates,
-#     FUN =
-#       function( x ) {
-#         
-#         idx.i <- which( colnames( data ) == x )
-#         
-#         max.i <-
-#           which.max(
-#             apply(
-#               X = data[ , idx.i ],
-#               MAR = 2,
-#               FUN = median,
-#               na.rm = TRUE
-#             )
-#           )
-#         
-#         return( idx.i[ -max.i ] )
-#         
-#       }
-#   )
-
 sum.duplicates <-
   lapply(
     X = names.duplicates,
@@ -328,8 +320,10 @@ sum.duplicates <-
         idx.i <- which( colnames( data ) == x )
         
         tmp <-
-          rowSums(
-            x = data[ , idx.i ],
+          apply(
+            X = data[ , idx.i ],
+            MAR = 1,
+            FUN = prod,
             na.rm = TRUE
           )
         
@@ -347,46 +341,18 @@ sum.duplicates <-
     check.names = FALSE
   )
 
-data <- 
-  dplyr::bind_cols(
-    data[ , !( colnames( data ) %in% names.duplicates ) ],
-    sum.duplicates
+data <-
+  merge(
+    x = data[ , !( colnames( data ) %in% names.duplicates ) ],
+    y = sum.duplicates,
+    by = "row.names"
   )
 
-data <- data[ , order( colnames( data ), decreasing = FALSE ) ]
+rownames( data ) <- data$"Row.names"
 
-# tmp <-
-# lapply(
-#   X = names.duplicates,
-#   FUN =
-#     function( x ) {
-#       
-#       idx.i <- which( colnames( data ) == x )
-#       
-#       apply(
-#         X = data[ , idx.i ],
-#         MAR = 2,
-#         FUN = 
-#           function( x ) {
-#             sd( x ) / mean( x )
-#           }
-#       )
-#       
-#     }
-# )
-# 
-# tmp <- lapply( X = tmp, FUN = mean )
-# 
-# idx.omitted <-
-#   sort(
-#     x = unlist( idx.omitted ),
-#     decreasing = FALSE
-#   )
-# 
-# is.duplicate <-
-#   colnames( data ) %in% names( which( table( colnames( data ) ) > 1 ) )
-# 
-# data <- data[ , -idx.omitted ]
+data$"Row.names" <- NULL
+
+data <- data[ , order( colnames( data ), decreasing = FALSE ) ]
 
 ```
 
@@ -395,6 +361,14 @@ data <- data[ , order( colnames( data ), decreasing = FALSE ) ]
 ```{r Omit-Singular-Classes}
 
 data <- data[ , !grepl( x = colnames( data ), pattern = "SB N" ) ]
+
+```
+
+## Round Observations
+
+```{r Round}
+
+data <- signif( x = data, digits = 3 )
 
 ```
 

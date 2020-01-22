@@ -2,7 +2,7 @@ Load and Prepare the cancerlipidome Data Set
 ================
 Tommi Suvitaival, Steno Diabetes Center Copenhagen,
 <TSUV0001@RegionH.DK>
-2019-12-11
+2020-01-22
 
 # Introduction
 
@@ -154,12 +154,27 @@ sample.info <-
 
 sample.info[ sample.info$"Stage" == "NA", "Stage" ] <- NA
 sample.info[ grepl( x = sample.info$"Type", pattern = "NA" ), "Type" ] <- NA
+sample.info$"Stage" <- droplevels( sample.info$"Stage" )
 
 sample.info <-
   sample.info[ 
     ,
     !grepl( x = colnames( sample.info ), pattern = "^V[0-9]" )
     ]
+
+sample.info$"Race" <-
+  stringr::str_replace_all(
+    string = sample.info$"Race",
+    pattern = "\\.",
+    replacement = "-"
+  )
+
+sample.info$"Type" <-
+  stringr::str_replace_all(
+    string = sample.info$"Type",
+    pattern = "\\.",
+    replacement = "-"
+  )
 ```
 
 ### Lipids from the Positive Ion Mode
@@ -282,29 +297,6 @@ colnames( data ) <-
 ``` r
 names.duplicates <- names( which( table( colnames( data ) ) > 1 ) )
 
-# idx.omitted <-
-#   lapply(
-#     X = names.duplicates,
-#     FUN =
-#       function( x ) {
-#         
-#         idx.i <- which( colnames( data ) == x )
-#         
-#         max.i <-
-#           which.max(
-#             apply(
-#               X = data[ , idx.i ],
-#               MAR = 2,
-#               FUN = median,
-#               na.rm = TRUE
-#             )
-#           )
-#         
-#         return( idx.i[ -max.i ] )
-#         
-#       }
-#   )
-
 sum.duplicates <-
   lapply(
     X = names.duplicates,
@@ -314,8 +306,10 @@ sum.duplicates <-
         idx.i <- which( colnames( data ) == x )
         
         tmp <-
-          rowSums(
-            x = data[ , idx.i ],
+          apply(
+            X = data[ , idx.i ],
+            MAR = 1,
+            FUN = prod,
             na.rm = TRUE
           )
         
@@ -333,52 +327,30 @@ sum.duplicates <-
     check.names = FALSE
   )
 
-data <- 
-  dplyr::bind_cols(
-    data[ , !( colnames( data ) %in% names.duplicates ) ],
-    sum.duplicates
+data <-
+  merge(
+    x = data[ , !( colnames( data ) %in% names.duplicates ) ],
+    y = sum.duplicates,
+    by = "row.names"
   )
 
-data <- data[ , order( colnames( data ), decreasing = FALSE ) ]
+rownames( data ) <- data$"Row.names"
 
-# tmp <-
-# lapply(
-#   X = names.duplicates,
-#   FUN =
-#     function( x ) {
-#       
-#       idx.i <- which( colnames( data ) == x )
-#       
-#       apply(
-#         X = data[ , idx.i ],
-#         MAR = 2,
-#         FUN = 
-#           function( x ) {
-#             sd( x ) / mean( x )
-#           }
-#       )
-#       
-#     }
-# )
-# 
-# tmp <- lapply( X = tmp, FUN = mean )
-# 
-# idx.omitted <-
-#   sort(
-#     x = unlist( idx.omitted ),
-#     decreasing = FALSE
-#   )
-# 
-# is.duplicate <-
-#   colnames( data ) %in% names( which( table( colnames( data ) ) > 1 ) )
-# 
-# data <- data[ , -idx.omitted ]
+data$"Row.names" <- NULL
+
+data <- data[ , order( colnames( data ), decreasing = FALSE ) ]
 ```
 
 ## Omit Classes with Only One Lipid
 
 ``` r
 data <- data[ , !grepl( x = colnames( data ), pattern = "SB N" ) ]
+```
+
+## Round Observations
+
+``` r
+data <- signif( x = data, digits = 3 )
 ```
 
 ## Merge Lipids and Sample Information
@@ -415,18 +387,18 @@ save(
 utils::sessionInfo()
 ```
 
-    ## R version 3.6.1 (2019-07-05)
+    ## R version 3.6.2 (2019-12-12)
     ## Platform: x86_64-w64-mingw32/x64 (64-bit)
-    ## Running under: Windows 10 x64 (build 18362)
+    ## Running under: Windows 10 x64 (build 17763)
     ## 
     ## Matrix products: default
     ## 
     ## locale:
-    ## [1] LC_COLLATE=English_United Kingdom.1252 
-    ## [2] LC_CTYPE=English_United Kingdom.1252   
-    ## [3] LC_MONETARY=English_United Kingdom.1252
-    ## [4] LC_NUMERIC=C                           
-    ## [5] LC_TIME=English_United Kingdom.1252    
+    ## [1] LC_COLLATE=English_United States.1252 
+    ## [2] LC_CTYPE=English_United States.1252   
+    ## [3] LC_MONETARY=English_United States.1252
+    ## [4] LC_NUMERIC=C                          
+    ## [5] LC_TIME=English_United States.1252    
     ## 
     ## attached base packages:
     ## [1] stats     graphics  grDevices utils     datasets  methods   base     
@@ -434,7 +406,7 @@ utils::sessionInfo()
     ## loaded via a namespace (and not attached):
     ##  [1] Rcpp_1.0.3       crayon_1.3.4     digest_0.6.23    dplyr_0.8.3     
     ##  [5] assertthat_0.2.1 R6_2.4.1         magrittr_1.5     evaluate_0.14   
-    ##  [9] pillar_1.4.2     rlang_0.4.2      stringi_1.4.3    rmarkdown_1.18  
-    ## [13] tools_3.6.1      stringr_1.4.0    glue_1.3.1       purrr_0.3.3     
-    ## [17] xfun_0.11        yaml_2.2.0       compiler_3.6.1   pkgconfig_2.0.3 
-    ## [21] htmltools_0.4.0  tidyselect_0.2.5 knitr_1.26       tibble_2.1.3
+    ##  [9] pillar_1.4.3     rlang_0.4.2      stringi_1.4.4    rmarkdown_2.1   
+    ## [13] tools_3.6.2      stringr_1.4.0    glue_1.3.1       purrr_0.3.3     
+    ## [17] xfun_0.12        yaml_2.2.0       compiler_3.6.2   pkgconfig_2.0.3 
+    ## [21] htmltools_0.4.0  tidyselect_0.2.5 knitr_1.27       tibble_2.1.3
