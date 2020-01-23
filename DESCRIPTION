@@ -21,13 +21,13 @@ Description: lipidomeR provides a streamlined pipeline for systematic
     presented on a two-dimensional map in terms of their size and 
     level of saturation, providing a systems-level understanding of changes in 
     the lipidome.
-License: GPL-3
+License: GPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: true
 URL: https://github.com/tommi-s/lipidomeR/
 RoxygenNote: 7.0.2
 Depends:
-    R (>= 3.3.0)
+    R (>= 3.5.0)
 biocViews:
 Imports:
     BiocManager,
