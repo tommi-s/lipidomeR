@@ -58,7 +58,7 @@ compute_post_hoc_test_with_limma <-
     names.post.hoc <-
       rownames(
         x$"result.F.test"
-      )[ x$"result.F.test"$"adj.P.Val" < p.adj.threshold ]
+      )[ which( x$"result.F.test"$"adj.P.Val" < p.adj.threshold ) ]
 
     if ( length( names.post.hoc ) == 0 ) {
 
@@ -191,11 +191,19 @@ compute_post_hoc_test_with_limma <-
         for ( i in 1:nrow( mapping.levels ) ) {
 
           colnames( y$"result.post.hoc.test"$"coefficients" ) <-
+            colnames( y$"result.post.hoc.test"$"p.value" ) <-
             stringr::str_replace(
               string = colnames( y$"result.post.hoc.test"$"coefficients" ),
               pattern = mapping.levels[ i, "combination.number" ],
               replacement = mapping.levels[ i, "combination.label" ]
             )
+
+          # colnames( y$"result.post.hoc.test"$"coefficients" ) <-
+          #   stringr::str_replace(
+          #     string = colnames( y$"result.post.hoc.test"$"coefficients" ),
+          #     pattern = mapping.levels[ i, "combination.number" ],
+          #     replacement = mapping.levels[ i, "combination.label" ]
+          #   )
 
         }
 
