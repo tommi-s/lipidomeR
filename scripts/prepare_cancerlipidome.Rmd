@@ -95,13 +95,14 @@ data.loaded.neg <-
 * Combine duplicate measurements from the same lipid into a single value
 * Omit classes with only one lipid
 * Merge lipidomics data with sample information
+* Convert the data into long format
 * Save the resulting data set
 
 ## Reformat
 
 ### Sample Information
 
-````{r Reformat-Sample-Info}
+```{r Reformat-Sample-Info}
 
 sample.info <- sample.info.loaded
 
@@ -390,11 +391,23 @@ data$"Group" <- as.factor( x = data$"Group" )
 
 ```
 
+# Convert the Data into a Longer Format
+
+```{r Longer}
+
+cancerlipidome <- 
+  tidyr::pivot_longer(
+    data = data,
+    cols = names.lipids,
+    names_to = "Lipid_Name",
+    values_to = "Lipid_Level"
+  )
+
+```
+
 # Save the Resulting Data
 
 ```{r Save}
-
-cancerlipidome <- data
 
 save(
   cancerlipidome,

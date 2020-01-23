@@ -2,7 +2,7 @@ Load and Prepare the cancerlipidome Data Set
 ================
 Tommi Suvitaival, Steno Diabetes Center Copenhagen,
 <TSUV0001@RegionH.DK>
-2020-01-22
+2020-01-23
 
 # Introduction
 
@@ -92,6 +92,7 @@ data.loaded.neg <-
     value
   - Omit classes with only one lipid
   - Merge lipidomics data with sample information
+  - Convert the data into long format
   - Save the resulting data set
 
 ## Reformat
@@ -369,11 +370,21 @@ data <-
 data$"Group" <- as.factor( x = data$"Group" )
 ```
 
+# Convert the Data into a Longer Format
+
+``` r
+cancerlipidome <- 
+  tidyr::pivot_longer(
+    data = data,
+    cols = names.lipids,
+    names_to = "Lipid_Name",
+    values_to = "Lipid_Level"
+  )
+```
+
 # Save the Resulting Data
 
 ``` r
-cancerlipidome <- data
-
 save(
   cancerlipidome,
   file = "../data/cancerlipidome.rda",
@@ -404,9 +415,11 @@ utils::sessionInfo()
     ## [1] stats     graphics  grDevices utils     datasets  methods   base     
     ## 
     ## loaded via a namespace (and not attached):
-    ##  [1] Rcpp_1.0.3       crayon_1.3.4     digest_0.6.23    dplyr_0.8.3     
-    ##  [5] assertthat_0.2.1 R6_2.4.1         magrittr_1.5     evaluate_0.14   
-    ##  [9] pillar_1.4.3     rlang_0.4.2      stringi_1.4.4    rmarkdown_2.1   
-    ## [13] tools_3.6.2      stringr_1.4.0    glue_1.3.1       purrr_0.3.3     
-    ## [17] xfun_0.12        yaml_2.2.0       compiler_3.6.2   pkgconfig_2.0.3 
-    ## [21] htmltools_0.4.0  tidyselect_0.2.5 knitr_1.27       tibble_2.1.3
+    ##  [1] Rcpp_1.0.3       knitr_1.27       magrittr_1.5     tidyselect_0.2.5
+    ##  [5] R6_2.4.1         rlang_0.4.2      stringr_1.4.0    dplyr_0.8.3     
+    ##  [9] tools_3.6.2      xfun_0.12        htmltools_0.4.0  yaml_2.2.0      
+    ## [13] assertthat_0.2.1 digest_0.6.23    tibble_2.1.3     lifecycle_0.1.0 
+    ## [17] crayon_1.3.4     purrr_0.3.3      tidyr_1.0.0      vctrs_0.2.1     
+    ## [21] zeallot_0.1.0    glue_1.3.1       evaluate_0.14    rmarkdown_2.1   
+    ## [25] stringi_1.4.4    compiler_3.6.2   pillar_1.4.3     backports_1.1.5 
+    ## [29] pkgconfig_2.0.3
