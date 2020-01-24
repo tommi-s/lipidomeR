@@ -18,7 +18,7 @@
 #'   \item{ALKP}{Alkaline phosphatase blood test (U/l)}
 #'   \item{TBIL}{Total bilirubin blood test (mg/dl)}
 #'   \item{Glucose}{Glucose blood test (mg/dl)}
-#'   \item{Type}{Subtype of the breast tumor. IDC: Invasive Ductal Carcinoma}
+#'   \item{Type}{Sub-type of the breast tumor. IDC: Invasive Ductal Carcinoma}
 #'   \item{Lipid_Name}{Name of the lipid. The names are in
 #'         the format "XY(C:D)", where XY is the abbreviation of the lipid
 #'         class, C is the total number of carbon atoms in the fatty-acid

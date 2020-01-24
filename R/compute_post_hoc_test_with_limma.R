@@ -19,7 +19,7 @@
 #' @param p.adj.threshold (Optional) numeric value specifying the threshold of
 #'    statistical significance in the pairwise comparisons after a correction
 #'    for multiple testing. We recommend to leave this argument unfilled,
-#'    leading to the same threshold to be used as in the preceeding F-test.
+#'    leading to the same threshold to be used as in the preceding F-test.
 #' @param remap.level.names (Optional) \code{TRUE} or \code{FALSE}: Should
 #'    the levels of the factor independent variable be re-mapped? This feature
 #'    can be used to solve a problem with the factor levels, which may occur

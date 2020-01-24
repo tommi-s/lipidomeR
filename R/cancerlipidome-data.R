@@ -10,7 +10,7 @@
 #'   \item{Group}{Diagnosis of the type tumor: benign, cancer, or metastasis}
 #'   \item{Race}{Ethnic background of the participant}
 #'   \item{Stage}{Diagnosis of the stage of the tumor}
-#'   \item{Type}{Subtype of the breast tumor. IDC: Invasive Ductal Carcinoma}
+#'   \item{Type}{Sub-type of the breast tumor. IDC: Invasive Ductal Carcinoma}
 #'   \item{Lipid_Name}{Name of the lipid. The names are in
 #'         the format "XY(C:D)", where XY is the abbreviation of the lipid
 #'         class, C is the total number of carbon atoms in the fatty-acid

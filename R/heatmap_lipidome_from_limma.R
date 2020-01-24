@@ -65,8 +65,8 @@
 #'    consecutively.
 #' @param print.formula (Optional) \code{TRUE} or \code{FALSE}: Add
 #'    the model formula as a title to the figure? We recommend to use
-#'    \code{print.formula = TRUE} for improved understandability and
-#'    reproducibility.
+#'    \code{print.formula = TRUE} to make the result more understandable and
+#'    reproducible.
 #' @param formula.width (Optional) numeric value to specify the width of a line
 #'    in the model formula. Relevant only if \code{print.formula = TRUE}.
 #' @param legend.key.size.multiplier (Optional) numeric value to scale the size
@@ -74,7 +74,7 @@
 #' @param range.min.N.carbons (Optional) numeric value to specify the minimum
 #'    range of the axis showing the lipid size (number of carbon atoms in the
 #'    fatty acid chains). This value can be increased from the default value to
-#'    improve readability in situtions, where there are lipid classes with
+#'    improve readability in situations, where there are lipid classes with
 #'    little or no variation in the lipid size.
 #' @param range.min.N.double.bonds (Optional) numeric value to specify
 #'    the minimum range of the axis showing the lipid saturation (number of
