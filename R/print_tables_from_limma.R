@@ -133,7 +133,7 @@ print_tables_from_limma <-
             tables.coefs.printed[[ coef.i ]] <-
               apply(
                 X = tables.coefs.printed[[ coef.i ]],
-                MAR = 2,
+                MARGIN = 2,
                 FUN = signif,
                 digits = 3
               )

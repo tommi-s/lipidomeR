@@ -140,7 +140,7 @@ heatmap_lipidome_from_limma <-
     shadowtext = FALSE,
     space = "free",
     survival = FALSE,
-    verbose = TRUE,
+    verbose = FALSE,
     wrap.contrast.name = TRUE
   ) {
 
@@ -151,6 +151,8 @@ heatmap_lipidome_from_limma <-
       print( "2019-05-21" )
 
     }
+
+    Class <- Factor <- NULL # Avoid note with 'ggplot2::Vars()'.
 
     x.in <- x
 
@@ -286,10 +288,10 @@ heatmap_lipidome_from_limma <-
           ggplot2::ggplot(
             data = y,
             mapping =
-              ggplot2::aes(
-                x = N.carbons,
-                y = N.double.bonds,
-                fill = F
+              ggplot2::aes_string(
+                x = "N.carbons",
+                y = "N.double.bonds",
+                fill = "F"
               )
           ) +
           ggplot2::ylab( label = "Number of fatty-acid double bonds" ) +
@@ -301,10 +303,10 @@ heatmap_lipidome_from_limma <-
           ggplot2::ggplot(
             data = y,
             mapping =
-              ggplot2::aes(
-                x = N.double.bonds,
-                y = N.carbons,
-                fill = F
+              ggplot2::aes_string(
+                x = "N.double.bonds",
+                y = "N.carbons",
+                fill = "F"
               )
           ) +
           ggplot2::xlab( label = "Number of fatty-acid double bonds" ) +
@@ -349,7 +351,7 @@ heatmap_lipidome_from_limma <-
         plot.i <-
           plot.i +
           shadowtext::geom_shadowtext(
-            mapping = ggplot2::aes( label = p.adj.range ),
+            mapping = ggplot2::aes_string( label = "p.adj.range" ),
             color = "red",
             bg.colour = "white"
           )
@@ -573,7 +575,7 @@ heatmap_lipidome_from_limma <-
 
         pvals <-
           apply( X = x$"p.value",
-                 MAR = 2,
+                 MARGIN = 2,
                  FUN = p.adjust,
                  method = p.adj.method )
 
@@ -607,8 +609,6 @@ heatmap_lipidome_from_limma <-
 
         pvals[ which( coefs$"Coefficient" <= 0 ), "p.adj.range.pos" ] <- NA
         pvals[ which( coefs$"Coefficient" > 0 ), "p.adj.range.neg" ] <- NA
-        # pvals[ coefs$"Coefficient" <= 0, "p.adj.range.pos" ] <- NA
-        # pvals[ coefs$"Coefficient" > 0, "p.adj.range.neg" ] <- NA
 
         pvals$"Significant_Coefficient_Sign" <-
           rep( x = NA, times = nrow( pvals ) )
@@ -671,13 +671,25 @@ heatmap_lipidome_from_limma <-
 
       if ( !is.null( omit.class ) ) {
 
-        y <- y[ -which( y$"Class" %in% omit.class ), ]
+        tmp <- which( y$"Class" %in% omit.class )
+
+        if ( length( tmp ) > 0 ) {
+
+          y <- y[ -tmp, ]
+
+        }
 
       }
 
       if ( !is.null( omit.factor ) ) {
 
-        y <- y[ -which( y$"Factor" %in% omit.factor ), ]
+        tmp <- which( y$"Factor" %in% omit.factor )
+
+        if ( length( tmp ) > 0 ) {
+
+          y <- y[ -tmp, ]
+
+        }
 
       }
 
@@ -790,10 +802,10 @@ heatmap_lipidome_from_limma <-
               ggplot2::ggplot(
                 data = data.plot,
                 mapping =
-                  ggplot2::aes(
-                    x = N.carbons,
-                    y = N.double.bonds,
-                    fill = Coefficient
+                  ggplot2::aes_string(
+                    x = "N.carbons",
+                    y = "N.double.bonds",
+                    fill = "Coefficient"
                   )
               ) +
               ggplot2::ylab( label = "Number of fatty-acid double bonds" ) +
@@ -805,10 +817,10 @@ heatmap_lipidome_from_limma <-
               ggplot2::ggplot(
                 data = data.plot,
                 mapping =
-                  ggplot2::aes(
-                    x = N.double.bonds,
-                    y = N.carbons,
-                    fill = Coefficient
+                  ggplot2::aes_string(
+                    x = "N.double.bonds",
+                    y = "N.carbons",
+                    fill = "Coefficient"
                   )
               ) +
               ggplot2::xlab( label = "Number of fatty-acid double bonds" ) +
@@ -898,12 +910,12 @@ heatmap_lipidome_from_limma <-
             plot.i <-
               plot.i +
               shadowtext::geom_shadowtext(
-                mapping = ggplot2::aes( label = p.adj.range.neg ),
+                mapping = ggplot2::aes_string( label = "p.adj.range.neg" ),
                 color = "blue",
                 bg.colour = "white"
               ) +
               shadowtext::geom_shadowtext(
-                mapping = ggplot2::aes( label = p.adj.range.pos ),
+                mapping = ggplot2::aes_string( label = "p.adj.range.pos" ),
                 color = "red",
                 bg.colour = "white"
               )
@@ -1040,10 +1052,10 @@ heatmap_lipidome_from_limma <-
             ggplot2::ggplot(
               data = data.plot,
               mapping =
-                ggplot2::aes(
-                  x = N.carbons,
-                  y = N.double.bonds,
-                  fill = Coefficient
+                ggplot2::aes_string(
+                  x = "N.carbons",
+                  y = "N.double.bonds",
+                  fill = "Coefficient"
                 )
             ) +
             ggplot2::ylab( label = "Number of fatty-acid double bonds" ) +
@@ -1055,10 +1067,10 @@ heatmap_lipidome_from_limma <-
             ggplot2::ggplot(
               data = data.plot,
               mapping =
-                ggplot2::aes(
-                  x = N.double.bonds,
-                  y = N.carbons,
-                  fill = Coefficient
+                ggplot2::aes_string(
+                  x = "N.double.bonds",
+                  y = "N.carbons",
+                  fill = "Coefficient"
                 )
             ) +
             ggplot2::xlab( label = "Number of fatty-acid double bonds" ) +
@@ -1100,13 +1112,13 @@ heatmap_lipidome_from_limma <-
           plot.i <-
             plot.i +
             shadowtext::geom_shadowtext(
-              mapping = ggplot2::aes( label = p.adj.range.neg ),
+              mapping = ggplot2::aes_string( label = "p.adj.range.neg" ),
               color = "blue",
               bg.colour = "white",
               show.legend = TRUE
             ) +
             shadowtext::geom_shadowtext(
-              mapping = ggplot2::aes( label = p.adj.range.pos ),
+              mapping = ggplot2::aes_string( label = "p.adj.range.pos" ),
               color = "red",
               bg.colour = "white",
               show.legend = TRUE

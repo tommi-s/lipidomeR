@@ -26,7 +26,7 @@
 #'    the fill scale.
 #' @param melt.value.name (Optional) character string, specifying the name of
 #'    the variable that will be shown as fill in the heatmap.
-#' @melt.variable.name (Optional) character string, specifying the name of
+#' @param melt.variable.name (Optional) character string, specifying the name of
 #'    of the variable that will be used to creating faceted sub-heatmaps.
 #' @param melt.x (Optional) \code{TRUE} or \code{FALSE}: Should the argument
 #'    \code{x} be molten by the function \code{reshape2::melt.data.frame}
@@ -84,6 +84,8 @@ heatmap_lipidome <-
     x.names = "row.names",
     x.variables = NULL
   ) {
+
+    Class <- NULL # Avoid note with 'ggplot2::Vars()'.
 
     x.in <- x
 
@@ -303,10 +305,10 @@ heatmap_lipidome <-
             na.value = "black"
           ) +
           ggplot2::geom_text(
-            mapping = ggplot2::aes( label = truncated.below ),
+            mapping = ggplot2::aes_string( label = "truncated.below" ),
             color = "red" ) +
           ggplot2::geom_text(
-            mapping = ggplot2::aes( label = truncated.above ),
+            mapping = ggplot2::aes_string( label = "truncated.above" ),
             color = "blue" )
 
       } else {
@@ -322,10 +324,10 @@ heatmap_lipidome <-
             na.value = "black"
           ) +
           ggplot2::geom_text(
-            mapping = ggplot2::aes( label = truncated.below ),
+            mapping = ggplot2::aes_string( label = "truncated.below" ),
             color = "blue" ) +
           ggplot2::geom_text(
-            mapping = ggplot2::aes( label = truncated.above ),
+            mapping = ggplot2::aes_string( label = "truncated.above" ),
             color = "red" )
 
       }

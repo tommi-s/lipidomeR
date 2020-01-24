@@ -1,7 +1,7 @@
 Package: lipidomeR
 Type: Package
 Title: Integrative Visualizations of the Lipidome
-Version: 0.0.0.9000
+Version: 0.1.0.0000
 Author: Tommi Suvitaival
 Maintainer: Tommi Suvitaival <TSUV0001@RegionH.DK>
 Description: lipidomeR provides a streamlined pipeline for systematic 

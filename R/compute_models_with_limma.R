@@ -66,7 +66,7 @@ compute_models_with_limma <-
     tmp <-
       apply(
         X = !is.na( design.test ),
-        MAR = 1,
+        MARGIN = 1,
         FUN = all
       )
 

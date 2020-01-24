@@ -19,10 +19,6 @@
 map_lipid_names <-
   function( x ) {
 
-  print( "map_lipid_names has been created by Tommi Suvitaival" )
-  print( "tommi.raimo.leo.suvitaival@regionh.dk" )
-  print( "2019-05-06" )
-
   colnames.y <-
     c(
       "Name",

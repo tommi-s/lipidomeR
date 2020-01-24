@@ -114,7 +114,7 @@ create_blank_data_for_range <-
           function( x ) {
             apply(
               X = x,
-              MAR = 2,
+              MARGIN = 2,
               FUN =
                 function( x ) {
 

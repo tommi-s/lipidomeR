@@ -38,6 +38,19 @@
 #' @examples
 #' # Import the data set.
 #' data( cancerlipidome )
+#' \dontshow{
+#' # Reduce the size of the data set for automated checking.
+#' tmp <-
+#'     tapply(
+#'         X = cancerlipidome$"Lipid_Level",
+#'         INDEX = cancerlipidome$"Lipid_Name",
+#'         FUN = function( x ){ sd( x ) / mean( x ) }
+#'     )
+#' tmp2 <- order( tmp, decreasing = TRUE )[ 1:20 ]
+#' tmp <- names( tmp )[ tmp2 ]
+#' cancerlipidome <-
+#'     cancerlipidome[ cancerlipidome$"Lipid_Name" %in% tmp, ]
+#' }
 #' # Convert the data into wide format, where each lipid is one column and
 #' # each sample is one row.
 #' cancerlipidome.wide <-
@@ -47,9 +60,7 @@
 #'        values_from = Lipid_Level
 #'    )
 #' # Inspect the data frame.
-#' \dontrun{
-#' View( cancerlipidome.wide )
-#' }
+#' # View( cancerlipidome.wide )
 #' # Create a mapping of the lipid names.
 #' names.mapping <-
 #'    map_lipid_names( x = unique( cancerlipidome$"Lipid_Name" ) )
