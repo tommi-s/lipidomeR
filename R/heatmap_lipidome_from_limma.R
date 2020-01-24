@@ -465,7 +465,7 @@ heatmap_lipidome_from_limma <-
       if ( print.figure ) {
 
         print( plot.i )
-        print( p.val.cat )
+        # print( p.val.cat )
 
       }
 
@@ -1014,7 +1014,7 @@ heatmap_lipidome_from_limma <-
           if ( print.figure ) {
 
             print( plot.i )
-            print( p.val.cat )
+            # print( p.val.cat )
 
           }
 
@@ -1209,7 +1209,7 @@ heatmap_lipidome_from_limma <-
         if ( print.figure ) {
 
           print( plot.i )
-          print( p.val.cat )
+          # print( p.val.cat )
 
         }
 
