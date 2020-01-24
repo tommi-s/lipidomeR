@@ -4,17 +4,10 @@
 \alias{compute_models_with_limma}
 \title{Compute lipid-specific regression models}
 \usage{
-compute_models_with_limma(
-  x,
-  dependent.variables,
-  independent.variables,
-  random.effect = NULL,
-  formula = NULL,
-  F.test = FALSE,
-  print.table1 = FALSE,
-  scale.dependent.variables = TRUE,
-  scale.independent.variables = FALSE
-)
+compute_models_with_limma(x, dependent.variables, independent.variables,
+  random.effect = NULL, formula = NULL, F.test = FALSE,
+  print.table1 = FALSE, scale.dependent.variables = TRUE,
+  scale.independent.variables = FALSE)
 }
 \arguments{
 \item{x}{(Required) data matrix.}

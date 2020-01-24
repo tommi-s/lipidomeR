@@ -4,37 +4,18 @@
 \alias{heatmap_lipidome_from_limma}
 \title{Create lipidome-wide heatmaps of model statistics}
 \usage{
-heatmap_lipidome_from_limma(
-  x,
-  names.mapping = NULL,
-  axis.x.carbons = TRUE,
-  baseline.adjusted = FALSE,
-  class.facet = "row",
-  class.subset = NULL,
-  F.test = FALSE,
-  omit.class = NULL,
-  omit.factor = NULL,
-  order.factor = FALSE,
-  p.val.thresholds = c(0.01, 0.05, 0.1),
-  p.val.labels = c(8, 4, 3),
-  p.val.label.bg.size = 2,
-  p.val.label.size = 1,
-  p.adj.method = "BH",
-  plot.individual = FALSE,
-  plot.all = TRUE,
-  print.figure = TRUE,
-  print.formula = TRUE,
-  formula.width = 110,
-  legend.key.size.multiplier = 2,
-  range.min.N.carbons = 5,
-  range.min.N.double.bonds = 5,
-  scales = "fixed",
-  shadowtext = FALSE,
-  space = "free",
-  survival = FALSE,
-  verbose = TRUE,
-  wrap.contrast.name = TRUE
-)
+heatmap_lipidome_from_limma(x, names.mapping = NULL,
+  axis.x.carbons = TRUE, baseline.adjusted = FALSE,
+  class.facet = "row", class.subset = NULL, F.test = FALSE,
+  omit.class = NULL, omit.factor = NULL, order.factor = FALSE,
+  p.val.thresholds = c(0.01, 0.05, 0.1), p.val.labels = c(8, 4, 3),
+  p.val.label.bg.size = 2, p.val.label.size = 1, p.adj.method = "BH",
+  plot.individual = FALSE, plot.all = TRUE, print.figure = TRUE,
+  print.formula = TRUE, formula.width = 110,
+  legend.key.size.multiplier = 2, range.min.N.carbons = 5,
+  range.min.N.double.bonds = 5, scales = "fixed", shadowtext = FALSE,
+  space = "free", survival = FALSE, verbose = FALSE,
+  wrap.contrast.name = TRUE)
 }
 \arguments{
 \item{x}{(Required) list of output from
@@ -119,8 +100,8 @@ consecutively.}
 
 \item{print.formula}{(Optional) \code{TRUE} or \code{FALSE}: Add
 the model formula as a title to the figure? We recommend to use
-\code{print.formula = TRUE} for improved understandability and
-reproducibility.}
+\code{print.formula = TRUE} to make the result more understandable and
+reproducible.}
 
 \item{formula.width}{(Optional) numeric value to specify the width of a line
 in the model formula. Relevant only if \code{print.formula = TRUE}.}
@@ -131,7 +112,7 @@ of the figure (key) legends.}
 \item{range.min.N.carbons}{(Optional) numeric value to specify the minimum
 range of the axis showing the lipid size (number of carbon atoms in the
 fatty acid chains). This value can be increased from the default value to
-improve readability in situtions, where there are lipid classes with
+improve readability in situations, where there are lipid classes with
 little or no variation in the lipid size.}
 
 \item{range.min.N.double.bonds}{(Optional) numeric value to specify

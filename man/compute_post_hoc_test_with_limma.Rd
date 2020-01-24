@@ -4,11 +4,8 @@
 \alias{compute_post_hoc_test_with_limma}
 \title{Compute pairwise post-hoc comparisons for a multi-level factor}
 \usage{
-compute_post_hoc_test_with_limma(
-  x,
-  p.adj.threshold = NULL,
-  remap.level.names = FALSE
-)
+compute_post_hoc_test_with_limma(x, p.adj.threshold = NULL,
+  remap.level.names = FALSE)
 }
 \arguments{
 \item{x}{(Required) list of models for which the test will be done.
@@ -22,7 +19,7 @@ significance from the function \code{compute_F_test_with_limma()}.}
 \item{p.adj.threshold}{(Optional) numeric value specifying the threshold of
 statistical significance in the pairwise comparisons after a correction
 for multiple testing. We recommend to leave this argument unfilled,
-leading to the same threshold to be used as in the preceeding F-test.}
+leading to the same threshold to be used as in the preceding F-test.}
 
 \item{remap.level.names}{(Optional) \code{TRUE} or \code{FALSE}: Should
 the levels of the factor independent variable be re-mapped? This feature

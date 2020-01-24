@@ -4,7 +4,8 @@
 \alias{compute_F_test_with_limma}
 \title{Compute an F-test for a multi-level factor independent variable}
 \usage{
-compute_F_test_with_limma(x, p.adj.threshold = 0.05, print.table = TRUE)
+compute_F_test_with_limma(x, p.adj.threshold = 0.05,
+  print.table = TRUE)
 }
 \arguments{
 \item{x}{(Required) list of models for which the test will be done.

@@ -4,25 +4,13 @@
 \alias{heatmap_lipidome}
 \title{Create a lipidomeR heatmap of lipid-specific values.}
 \usage{
-heatmap_lipidome(
-  x,
-  names.mapping,
-  axis.x.carbons = TRUE,
-  class.facet = "row",
-  fill.direction = "increasing",
-  fill.limits = c(0, 40),
-  fill.midpoint = 20,
-  melt.value.name = "CV",
-  melt.variable.name = NULL,
-  melt.x = TRUE,
-  range.min.N.carbons = 5,
-  range.min.N.double.bonds = 5,
-  scale.fill.log = NULL,
-  scales = "free_y",
-  space = "free",
-  x.names = "row.names",
-  x.variables = NULL
-)
+heatmap_lipidome(x, names.mapping, axis.x.carbons = TRUE,
+  class.facet = "row", fill.direction = "increasing",
+  fill.limits = c(0, 40), fill.midpoint = 20, melt.value.name = "CV",
+  melt.variable.name = NULL, melt.x = TRUE, range.min.N.carbons = 5,
+  range.min.N.double.bonds = 5, scale.fill.log = NULL,
+  scales = "free_y", space = "free", x.names = "row.names",
+  x.variables = NULL)
 }
 \arguments{
 \item{x}{(Required) named vector of numeric values to create a figure of.
@@ -54,6 +42,9 @@ the fill scale.}
 
 \item{melt.value.name}{(Optional) character string, specifying the name of
 the variable that will be shown as fill in the heatmap.}
+
+\item{melt.variable.name}{(Optional) character string, specifying the name of
+of the variable that will be used to creating faceted sub-heatmaps.}
 
 \item{melt.x}{(Optional) \code{TRUE} or \code{FALSE}: Should the argument
 \code{x} be molten by the function \code{reshape2::melt.data.frame}

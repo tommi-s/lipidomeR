@@ -36,11 +36,21 @@ names.mapping <- map_lipid_names( x = humanlipidome$'Name' )
 # Create the lipidomeR heatmap of lipid concentrations.
 heatmap_lipidome(
    x = humanlipidome[ , c( "Name", "Concentration_log10_umol_per_mL" ) ],
-   class.facet = "wrap",
    names.mapping = names.mapping,
+   class.facet = "wrap",
    x.names = "Name",
-   fill.limits = range( x = humanlipidome$"Concentration_log10_umol_per_mL", na.rm = TRUE ),
-   fill.midpoint = sum( range( x = humanlipidome$"Concentration_log10_umol_per_mL", na.rm = TRUE ) ) / 2,
+   fill.limits =
+       range(
+           x = humanlipidome$"Concentration_log10_umol_per_mL",
+           na.rm = TRUE
+       ),
+   fill.midpoint =
+       sum(
+           range(
+               x = humanlipidome$"Concentration_log10_umol_per_mL",
+               na.rm = TRUE
+           )
+       ) / 2,
    melt.value.name = "Concentration_umol_per_mL_log10",
    scales = "free"
 )
