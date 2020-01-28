@@ -36,6 +36,75 @@ library( "lipidomeR" )
 
 ```
 
+# Workflow
+
+* The typical lipidomeR workflow, involving an ordinary linear regression model, 
+    is shown in bold.
+
+```{r Workflow, echo = FALSE}
+
+workflow <-
+DiagrammeR::grViz(
+  diagram =
+    "digraph flowchart {
+    
+      # Nodes
+      node [fontname = Helvetica, shape = circle, penwidth = 5]        
+      tab1 [label = '@@1']
+      node [shape = rectangle, penwidth = 5]
+      tab2 [label = '@@2']
+      tab3 [label = '@@3']
+      tab4 [label = '@@4']
+      node [penwidth = 1]
+      tab5 [label = '@@5']
+      tab6 [label = '@@6']
+      tab7 [label = '@@7']
+      node [shape = ellipse, penwidth = 5] 
+      tab8 [label = '@@8']
+      node [shape = ellipse, penwidth = 1]
+      tab9 [label = '@@9']
+
+      # Edges
+      tab1 -> tab2 [penwidth=5];
+      tab1 -> tab3 [penwidth=5];
+      tab2 -> tab3 [penwidth=5];
+      tab3 -> tab4 [penwidth=5];
+      tab2 -> tab4 [penwidth=5];
+      tab3 -> tab5;
+      tab5 -> tab4;
+      tab5 -> tab6;
+      tab6 -> tab4;
+      tab1 -> tab7;
+      tab2 -> tab7;
+      tab4 -> tab8 [penwidth=5];
+      tab7 -> tab9;
+      }
+
+      [1]: 'Data'
+      [2]: 'map_lipid_names()'
+      [3]: 'compute_models_with_limma()'
+      [4]: 'heatmap_lipidome_from_limma()'
+      [5]: 'compute_F_test_with_limma()'
+      [6]: 'compute_post_hoc_tests_with_limma()'
+      [7]: 'heatmap_lipidome()'
+      [8]: 'lipidomeR Heatmap\\non model statistics'
+      [9]: 'lipidomeR Heatmap\\non original set of observations'
+      "
+  )
+
+workflow.rsvg <- DiagrammeRsvg::export_svg( gv = workflow )
+
+workflow.rsvg <- charToRaw( x = workflow.rsvg )
+
+workflow.svg <- rsvg::rsvg_svg(
+   svg = workflow.rsvg,
+   file = "README_files/workflow.svg"
+)
+
+```
+
+<img src="README_files/workflow.svg">
+
 # Examples
 
 ## humanlipidome

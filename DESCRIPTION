@@ -1,7 +1,7 @@
 Package: lipidomeR
 Type: Package
 Title: Integrative Visualizations of the Lipidome
-Version: 0.1.0
+Version: 0.1.0.1
 Authors@R: c( person( "Tommi", "Suvitaival", role = c( "aut", "cre" ),
                       email = "TSUV0001@RegionH.DK" ) 
            )
