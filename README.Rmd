@@ -44,40 +44,69 @@ library( "lipidomeR" )
 ```{r Workflow, echo = FALSE}
 
 workflow <-
-DiagrammeR::grViz(
-  diagram =
-    "digraph flowchart {
+  DiagrammeR::grViz(
+    diagram =
+      "digraph flowchart {
     
-      # Nodes
-      node [fontname = Helvetica, shape = circle, penwidth = 5]        
+      graph [compound = true, dir = forward, rankdir = TB]
+      
+      # graph [splines = ortho]
+      
+      node [fontname = Helvetica]
+      
+      # Root
+      
+      node [shape = circle, penwidth = 5]        
       tab1 [label = '@@1']
+      
+      # Observations route
+      
+      subgraph cluster_Observations {
+      
+        graph[shape = rectangle, style = dashed, label = 'Observations']
+        node [shape = rectangle, penwidth = 1, color = black]
+        tab7 [label = '@@7']
+        node [shape = diamond, penwidth = 1]
+        tab9 [label = '@@9']
+        
+      }
+      
+      # Primary route
+      
       node [shape = rectangle, penwidth = 5]
       tab2 [label = '@@2']
       tab3 [label = '@@3']
       tab4 [label = '@@4']
-      node [penwidth = 1]
-      tab5 [label = '@@5']
-      tab6 [label = '@@6']
-      tab7 [label = '@@7']
-      node [shape = ellipse, penwidth = 5] 
+      
+      tab2 -> tab3 [penwidth=5];
+      tab3 -> tab4 [penwidth=5, weight=99, label = '  Ordinary\\n  linear\\n   regression'];
+      
+      node [shape = diamond, penwidth = 5,] 
       tab8 [label = '@@8']
-      node [shape = ellipse, penwidth = 1]
-      tab9 [label = '@@9']
-
+      tab4 -> tab8 [penwidth=5, weight = 99];
+      
+      # ANCOVA route
+      
+      subgraph cluster_ANCOVA {
+      
+        graph [shape = rectangle, style = dashed, label = 'ANCOVA & Post-Hoc Comparisons']
+        node [shape = rectangle, penwidth = 1, width = 3, color = black]
+        tab5 [label = '@@5']
+        tab6 [label = '@@6']
+        tab5 -> tab6;
+        
+      }
+      
       # Edges
+      
       tab1 -> tab2 [penwidth=5];
       tab1 -> tab3 [penwidth=5];
-      tab2 -> tab3 [penwidth=5];
-      tab3 -> tab4 [penwidth=5];
-      tab2 -> tab4 [penwidth=5];
       tab3 -> tab5;
-      tab5 -> tab4;
-      tab5 -> tab6;
-      tab6 -> tab4;
       tab1 -> tab7;
       tab2 -> tab7;
-      tab4 -> tab8 [penwidth=5];
       tab7 -> tab9;
+      tab5 -> tab4 [label = 'ANCOVA\\n\\n\\n'];
+      tab6 -> tab4 [label = 'Pairwise\\npost-hoc\\ncomparisons'];
       }
 
       [1]: 'Data'
@@ -88,7 +117,7 @@ DiagrammeR::grViz(
       [6]: 'compute_post_hoc_tests_with_limma()'
       [7]: 'heatmap_lipidome()'
       [8]: 'lipidomeR Heatmap\\non model statistics'
-      [9]: 'lipidomeR Heatmap\\non original set of observations'
+      [9]: 'lipidomeR Heatmap\\non a set of observations'
       "
   )
 
@@ -376,7 +405,7 @@ classes.included <-
                names.mapping[
                    make.names( has.any.significant ), "Class"
                ]
-           ) > 4
+           ) > 3
        )
    )
 

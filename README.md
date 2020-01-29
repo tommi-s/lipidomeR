@@ -2,7 +2,7 @@ lipidomeR
 ================
 Tommi Suvitaival, Steno Diabetes Center Copenhagen,
 <TSUV0001@RegionH.DK>
-2020-01-28
+2020-01-29
 
 # Introduction
 
@@ -302,7 +302,7 @@ classes.included <-
                names.mapping[
                    make.names( has.any.significant ), "Class"
                ]
-           ) > 4
+           ) > 3
        )
    )
 
