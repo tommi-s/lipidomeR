@@ -5,7 +5,7 @@
 
 ## devtools check results
 
-devtools::check()
+### devtools::check()
 
 ─  building ‘lipidomeR_0.1.1.tar.gz’
    Warning: invalid uid value replaced by that for user 'nobody'
@@ -13,17 +13,21 @@ devtools::check()
 
 ✓  checking examples (10.4s)
    ** found \donttest examples: check also with --run-donttest
+   
+Duration: 1m 33.8s
 
-devtools::check( run_dont_test = TRUE )
+0 errors ✓ | 0 warnings ✓ | 0 notes ✓
+
+### devtools::check( run_dont_test = TRUE )
 
 ─  building ‘lipidomeR_0.1.1.tar.gz’
    Warning: invalid uid value replaced by that for user 'nobody'
    Warning: invalid gid value replaced by that for user 'nobody'
    
-✓  checking examples (19.2s)
+✓  checking examples (20.2s)
    Examples with CPU or elapsed time > 5s
                   user system elapsed
-   liverlipidome 7.802  0.064  10.123
+   liverlipidome 7.848  0.063  10.809
 
 Duration: 1m 40.6s
 
@@ -31,10 +35,9 @@ Duration: 1m 40.6s
 
 ## R CMD check results
 
-R CMD check --as-cran ../lipidomeR_0.1.1.tar.gz
+### R CMD check --as-cran ../lipidomeR_0.1.1.tar.gz
 
 * checking CRAN incoming feasibility ... NOTE
-Maintainer: ‘Tommi Suvitaival <TSUV0001@RegionH.DK>’
 
 New submission
 
@@ -43,12 +46,13 @@ Files ‘README.md’ or ‘NEWS.md’ cannot be checked without ‘pandoc’ be
 
 ** found \donttest examples: check also with --run-donttest
 
-R CMD check --as-cran --run-donttest ../lipidomeR_0.1.1.tar.gz
+Status: 2 NOTEs
+
+### R CMD check --as-cran --run-donttest ../lipidomeR_0.1.1.tar.gz
 
 * checking CRAN incoming feasibility ... NOTE
 
 New submission
-Maintainer: ‘Tommi Suvitaival <TSUV0001@RegionH.DK>’
 
 * checking top-level files ... NOTE
 Files ‘README.md’ or ‘NEWS.md’ cannot be checked without ‘pandoc’ being installed.
@@ -56,4 +60,6 @@ Files ‘README.md’ or ‘NEWS.md’ cannot be checked without ‘pandoc’ be
 * checking examples ... NOTE
 Examples with CPU or elapsed time > 5s
                user system elapsed
-liverlipidome 7.801  0.074   8.966
+               
+Status: 3 NOTEs
+liverlipidome 7.809  0.066   8.905
