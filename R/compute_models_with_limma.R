@@ -1,7 +1,7 @@
 #' Compute lipid-specific regression models
 #'
 #' Use this function to computing multiple regression models that can be
-#'    directly supplied to the visualization functions of the lipidomeR.
+#'    directly supplied to the visualization functions of the 'lipidomeR'.
 #'
 #' @param x (Required) data matrix.
 #' @param dependent.variables
@@ -12,11 +12,11 @@
 #'    These should be the names of the variables defining the experiment design.
 #' @param random.effect (Optional) name of a single variable specifying
 #'    the random effect for a random-effects model.
-#'    For instance, \code{"ID"} specifies a random effect as in
-#'    \code{limma::duplicateCorrelation( ..., block = x$"ID" )}.
+#'    For instance, \code{ID} specifies a random effect as in
+#'    \code{limma::duplicateCorrelation( ..., block = x$'ID' )}.
 #' @param formula
 #'    (Optional) character string of model formula in the format accepted by
-#'    the function \code{stats::model.matrix()} and starting with \code{~}.
+#'    the function \code{\link[stats]{model.matrix}} and starting with \code{~}.
 #'    Variables mentioned in the formula should be included in
 #'    the \code{independent.variables} argument.
 #'    For instance, \code{Group * Treatment}.
@@ -31,13 +31,15 @@
 #' @param scale.independent.variables (Optional) \code{TRUE} or \code{FALSE}:
 #'    Should independent variables be scaled to zero-mean and unit-variance
 #'    prior to model fitting?
+#' @param verbose (Optional) \code{TRUE} or \code{FALSE}: Print messages from
+#'    the model fitting?
 #'
 #' @return List of regression results the that can be directly supplied as
-#'    an argument to the function \code{heatmap_lipidome_from_limma()} and
+#'    an argument to the function \code{\link{heatmap_lipidome_from_limma}} and
 #'    other visualization functions of the lipidomeR.
 #'
-#' @seealso heatmap_lipidome_from_limma() for visualizing the output of this
-#'    function.
+#' @seealso \code{\link{heatmap_lipidome_from_limma}} for visualizing the
+#'    output of this function.
 #'
 #' @export
 #'
@@ -51,7 +53,8 @@ compute_models_with_limma <-
     F.test = FALSE,
     print.table1 = FALSE,
     scale.dependent.variables = TRUE,
-    scale.independent.variables = FALSE
+    scale.independent.variables = FALSE,
+    verbose = TRUE
   ) {
 
     # Extract independent variables.
@@ -72,7 +75,7 @@ compute_models_with_limma <-
 
     if ( !any ( tmp ) ) {
 
-      print( "Error: No samples with non-missing independent variables." )
+      stop( "No samples with non-missing independent variables." )
 
     }
 
@@ -172,16 +175,28 @@ compute_models_with_limma <-
 
     }
 
-    print( paste( "Fitting models:" ) )
-    print( paste( as.character( formula ), collapse = " " ) )
+    if ( verbose ) {
 
-    if ( !is.null( random.effect ) ) {
+      tmp <- paste( "Fitting models:" )
+      tmp <-
+        paste(
+          tmp,
+          paste( as.character( formula ), collapse = " " )
+        )
 
-      print( paste( "with random effect:", random.effect ) )
+      if ( !is.null( random.effect ) ) {
+
+        tmp <-
+          paste(
+            tmp,
+            paste( "with random effect:", random.effect )
+          )
+
+      }
+
+      message( tmp )
 
     }
-
-    print( "" )
 
     # Create model matrix.
 

@@ -1,18 +1,22 @@
 #' Enumerate lipid names into values about lipid class, size and saturation
 #'
-#' Use this function to create a "mapping" of the lipids, which can be used to
-#'    creating lipidomeR heatmaps.
+#' Use this function to create a mapping of the lipids to values, which can be
+#'    used to creating 'lipidomeR' heatmaps.
 #'
-#' @param x (Required) character vector of lipid names
+#' @param x (Required) character vector of lipid names. The names are expected
+#'    in the format 'XY(C:D)', where 'XY' is the abbreviation of the lipid
+#'    class, 'C' is the total number of carbon atoms in the fatty-acid
+#'    chains, and 'D' is the total number of double-bonds in the fatty
+#'    acid chains.
 #'
 #' @return Data frame with lipid names in various formats for R and
-#'    the enumerated values of lipid class (Class), lipid size (N.carbons) and
-#'    lipid unsaturation (N.double.bonds).
+#'    the enumerated values of lipid class (\code{Class}), lipid size
+#'    (\code{N.carbons}) and lipid unsaturation (\code{N.double.bonds}).
 #'
-#' @seealso heatmap_lipidome_from_limma() for creating lipidomeR heatmaps of
-#'    regression model results based on the output of this function.
-#' @seealso heatmap_lipidome() for creating lipidomeR heatmaps of any
-#'    lipid-specific values based on the output of this function.
+#' @seealso \code{\link{heatmap_lipidome_from_limma}} for creating 'lipidomeR'
+#'    heatmaps of regression model results based on the output of this function.
+#' @seealso \code{\link{heatmap_lipidome}} for creating 'lipidomeR' heatmaps
+#'    of any lipid-specific values based on the output of this function.
 #'
 #' @export
 #'
@@ -100,8 +104,6 @@ map_lipid_names <-
     )
 
   # Remove the odd character(s) preceding the carbon number.
-
-  # For instance, "SM(d42:0)" becomes "SM(42:0)" and "PC(O-16:0)" becomes "PC(16:0)".
 
   # For instance, "PC(16:0/O-1:0)" becomes "PC(16:0/1:0)".
   y$"Name.clean" <-
@@ -204,7 +206,8 @@ map_lipid_names <-
 
       for ( j in 1:length( colons.before.end.i ) ) {
 
-        if ( j == 1 ) { # The first carbon number after the start of the description.
+        # The first carbon number after the start of the description.
+        if ( j == 1 ) {
 
           y[ i, "N.carbons" ] <-
             as.numeric(
@@ -229,7 +232,8 @@ map_lipid_names <-
 
         }
 
-        if ( j < length( colons.before.end.i ) ) { # Double bond number before the last number.
+        # Double bond number before the last number.
+        if ( j < length( colons.before.end.i ) ) {
 
           y[ i, "N.double.bonds" ] <-
             y[ i, "N.double.bonds" ] +

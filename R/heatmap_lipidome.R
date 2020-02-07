@@ -1,23 +1,23 @@
-#' Create a lipidomeR heatmap of lipid-specific values.
+#' Create 'lipidomeR' heatmaps of arbitrary lipid-specific values.
 #'
 #' Use this function to create a heatmap of any lipid-specific values.
-#'    Note: Use the function heatmap_lipidome_from_limma() to create
+#'    Note: Use the function \code{\link{heatmap_lipidome_from_limma}} to create
 #'    heatmaps of model statistics.
 #'
 #' @param x (Required) named vector of numeric values to create a figure of.
 #'    Names need to match to the argument names.mapping through
-#'    the function map_lipid_names(). Alternatively, a data frame can be
-#'    supplied. In that case, set \code{melt.x = TRUE}.
+#'    the function \code{\link{map_lipid_names}}. Alternatively, a data frame
+#'    can be supplied. In that case, set \code{melt.x = TRUE}.
 #' @param names.mapping (Required) mapping of lipid names from
-#'    the \code{map_lipid_names()} function.
+#'    the \code{\link{map_lipid_names}} function.
 #' @param axis.x.carbons (Optional) \code{TRUE} or \code{FALSE}: Should
 #'    the lipid size (i.e., number of carbon atoms in the fatty acid chain) be
 #'    presented on the x-axis or y-axis?
 #' @param class.facet (Optional) character string with possible values
-#'    \code{"col"}, \code{"row"} or \code{"wrap"}:
+#'    \code{'col'}, \code{'row'} or \code{'wrap'}:
 #'    Present lipid classes as panels organized into columns, rows or into a
 #'    wrapped layout spanning over multiple rows and columns. The alternative
-#'    \code{"wrap"} is only available with \code{plot.infividual = TRUE}.
+#'    \code{'wrap'} is only available with \code{plot.infividual = TRUE}.
 #' @param fill.direction (Optional) \code{TRUE} or \code{FALSE}: Should color
 #'    fill be in an increasing direction?
 #' @param fill.limits (Optional) numeric vector of length two, indicating
@@ -29,7 +29,7 @@
 #' @param melt.variable.name (Optional) character string, specifying the name of
 #'    of the variable that will be used to creating faceted sub-heatmaps.
 #' @param melt.x (Optional) \code{TRUE} or \code{FALSE}: Should the argument
-#'    \code{x} be molten by the function \code{reshape2::melt.data.frame}
+#'    \code{x} be molten by the function \code{\link[reshape2]{melt}}
 #'    prior to plotting? Set \code{melt.x = TRUE}, if you want to plot a data
 #'    frame instead of a vector of values. In that case, each column of the
 #'    data frame will be plotted as an individual facet.
@@ -47,14 +47,14 @@
 #'    the logarithm, which will be used to creating a logarithmic scale for
 #'    the fill scale of the plot.
 #' @param scales (Optional) character string with possible values
-#'    \code{"fixed"}, \code{"free"}, \code{"free_x"} or \code{"free_y"}. This
+#'    \code{'fixed'}, \code{'free'}, \code{'free_x'} or \code{'free_y'}. This
 #'    argument specifies, whether the axes in multiple sub-heatmaps will be in
-#'    the same scale (\code{"fixed"}) or in a scale specific to each sub-figure.
-#'    See the function \code{ggplot2::facet_grid()} for details.
+#'    the same scale (\code{'fixed'}) or in a scale specific to each sub-figure.
+#'    See the function \code{\link[ggplot2]{facet_grid}} for details.
 #' @param space (Optional) character string with possible values
-#'    \code{"fixed"}, \code{"free"}, \code{"free_x"} or \code{"free_y"}.
+#'    \code{'fixed'}, \code{'free'}, \code{'free_x'} or \code{'free_y'}.
 #'    This argument specifies, whether the sub-heatmaps will be of identical
-#'    size (\code{"fixed"}) or not.
+#'    size (\code{'fixed'}) or not.
 #' @param x.names (Optional) character string specifying the name of the
 #'    variable in the argument \code{x}, which will be used to matching
 #'    the values to the argument \code{names.mapping}.
@@ -122,7 +122,6 @@ heatmap_lipidome <-
 
         x <-
           reshape2::melt(
-            # reshape2::melt.data.frame( ?
             data = x,
             id.vars = x.names,
             measure.vars = x.variables,

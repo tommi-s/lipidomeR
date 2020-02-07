@@ -1,20 +1,16 @@
-#' Install the Bioconductor dependencies for the lipidomeR
+#' Install the Bioconductor dependencies for the 'lipidomeR'
 #'
 #' Run this function, if you encounter an error with missing packages,
-#'    such as, \code{limma}.
+#'    such as, \href{https://doi.org/doi:10.18129/B9.bioc.limma}{limma}.
 #'
 #' @param pkgs.bioconductor Character vector of Bioconductor packages to
 #'    install.
-#' @params ... Other arguments to the \code{BiocManager::install()} function.
-#'
-#' @inheritParams BiocManager::install
 #'
 #' @export
 #'
 install_Bioconductor_dependencies <-
   function(
-    pkgs.bioconductor = c( "limma" ),
-    ...
+    pkgs.bioconductor = c( "limma" )
   ) {
 
     is.legacy.R <-
@@ -29,28 +25,34 @@ install_Bioconductor_dependencies <-
 
     if ( is.legacy.R ) {
 
-      print( "WARNING: Legacy R with no BiocManager package available." )
-      print( "Install Bioconductor dependencies" )
-      print( "by manually running the following lines:" )
-
-      print( "source( 'https://bioconductor.org/biocLite.R' )" )
-
-      print(
+      tmp <-
         paste(
+          "Legacy R with no BiocManager package available.",
+          "Install Bioconductor dependencies",
+          "by manually running the following lines:\n"
+        )
+
+      tmp <-
+        paste(
+          tmp,
+          "source( 'https://bioconductor.org/biocLite.R'"
+        )
+
+      tmp <-
+        paste(
+          tmp,
           "BiocInstaller::biocLite( c(",
           paste(
             pkgs.bioconductor,
             collapse = "," ),
           ")"
         )
-      )
+
+      stop( tmp )
 
     } else {
 
-      BiocManager::install(
-        pkgs = pkgs.bioconductor,
-        ...
-      )
+      BiocManager::install( pkgs = pkgs.bioconductor )
 
     }
 

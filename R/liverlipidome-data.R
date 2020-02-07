@@ -20,10 +20,10 @@
 #'   \item{Glucose}{Glucose blood test (mg/dl)}
 #'   \item{Type}{Sub-type of the breast tumor. IDC: Invasive Ductal Carcinoma}
 #'   \item{Lipid_Name}{Name of the lipid. The names are in
-#'         the format "XY(C:D)", where XY is the abbreviation of the lipid
-#'         class, C is the total number of carbon atoms in the fatty-acid
-#'         chains, and D is the total number of double-bonds in the fatty acid
-#'         chains.}
+#'         the format 'XY(C:D)', where 'XY' is the abbreviation of the lipid
+#'         class, 'C' is the total number of carbon atoms in the fatty-acid
+#'         chains, and 'D' is the total number of double-bonds in the fatty
+#'         acid chains.}
 #'   \item{Lipid_Level}{Measured level of the lipid.}
 #' }
 #' @keywords data datasets human lipidome lipids lipidomics non-alcoholic liver
@@ -33,7 +33,7 @@
 #'    J Lip Res. 56(3) 722-36 (2015)
 #'    (\href{https://dx.doi.org/10.1194/jlr.P056002}{doi: 10.1194/jlr.P056002}
 #' @source This data is available at the NIH Common Fund's National
-#'    Metabolomics Data Repository (NMDR) website, the Metabolomics Workbench,
+#'    Metabolomics Data Repository (NMDR) website, the 'Metabolomics Workbench',
 #'    \url{https://www.metabolomicsworkbench.org},
 #'    where it has been assigned Project ID PR000633.
 #'    The data can be accessed directly via its Project DOI:
@@ -63,13 +63,9 @@
 #'        F.test = TRUE # Compute an F-test for a factor variable.
 #'    )
 #' # Compute the F-test.
-#' result.limma <-
-#'    compute_F_test_with_limma(
-#'        x = result.limma,
-#'        print.table = FALSE
-#'    )
-#' # Print a figure of the F-test (not run).
-#' \dontrun{
+#' result.limma <- compute_F_test_with_limma( x = result.limma )
+#' # Print a figure of the F-test.
+#' \donttest{
 #' figure.output <-
 #'   heatmap_lipidome_from_limma(
 #'       x = result.limma,
@@ -91,7 +87,7 @@
 #'        remap.level.names = TRUE
 #'    )
 #' # Print a figure of all post-hoc comparisons.
-#' \dontrun{
+#' \donttest{
 #' figure.output <-
 #'     heatmap_lipidome_from_limma(
 #'     x = result.limma$"result.post.hoc.test",

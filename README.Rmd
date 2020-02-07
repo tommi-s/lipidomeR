@@ -8,24 +8,20 @@ output: github_document
 
 # Introduction
 
-Create lipidome-wide heatmaps of statistics with the lipidomeR.
-    The lipidomeR provides a streamlined pipeline for systematic 
+Create lipidome-wide heatmaps of statistics with the 'lipidomeR'.
+    The 'lipidomeR' provides a streamlined pipeline for the systematic 
     interpretation of the lipidome through publication-ready visualizations 
     of regression models fitted on lipidomics data. 
-    With lipidomeR, associations between covariates and the lipidome 
+    With 'lipidomeR', associations between covariates and the lipidome 
     can be interpreted systematically and intuitively through heatmaps, where 
-    lipids are organized based on their class, size and level of saturation.
-    With lipidomeR, you can create lipidome-wide heatmaps of 
-    statistical associations, changes or differences. 
-    lipidomeR helps you to immediately understand complex patterns 
-    in high-dimensional lipidomics data. 
-    The heatmaps are provided with publication-ready quality and 
-    the results behind the visualizations are based on rigorous statistical 
-    models. 
-    In lipidomeR heatmaps, lipids are categorized by the lipid class and 
-    presented on a two-dimensional map in terms of their size and 
-    level of saturation, providing a systems-level understanding of changes in 
-    the lipidome.
+    lipids are categorized by the lipid class and are presented on 
+    two-dimensional maps organized by the lipid size and level of saturation. 
+    This way, the 'lipidomeR' helps you gain an immediate understanding of 
+    the multivariate patterns in the lipidome already at first glance.
+    You can create lipidome-wide heatmaps of statistical associations, changes, 
+    differences, variation, or other lipid-specific values.  
+    The heatmaps are provided with publication-ready quality and the results 
+    behind the visualizations are based on rigorous statistical models.
 
 # Getting Started
 
@@ -151,6 +147,8 @@ lapply( X = tmp, FUN = source )
 
 ```{r Data-Humanlipidome, eval = FALSE}
 
+# Load the humanlipidome data set.
+
 data( lipidomeR::humanlipidome )
 
 ```
@@ -201,11 +199,13 @@ load( "data/cancerlipidome.rda")
 
 ```{r Data-Cancerlipidome, eval = FALSE}
 
+# Load the cancerlipidome data set.
+
 data( lipidomeR::cancerlipidome )
 
 ```
 
-```{r Cancerlipidome, fig.width = 9, fig.height = 9, warning = FALSE}
+```{r Cancerlipidome, fig.width = 9, fig.height = 12, warning = FALSE}
 
 # Convert the data into wide format, where each lipid is one column and
 # each sample is one row.
@@ -234,7 +234,7 @@ result.limma <-
        independent.variables = c( "Group" )
    )
 
-# Create the figure.
+# Create the figure of all lipids and factors.
 
 figure.output <-
    heatmap_lipidome_from_limma(
@@ -248,6 +248,12 @@ figure.output <-
        scales = "free",
        space = "free"
    )
+
+```
+
+```{r Cancerlipidome-Subset, fig.width = 9, fig.height = 9, warning = FALSE}
+
+# Create factor-specific figures.
 
 figure.output <-
    heatmap_lipidome_from_limma(
@@ -279,6 +285,8 @@ load( "data/liverlipidome.rda" )
 
 ```{r Data-Liverlipidome, eval = FALSE}
 
+# Load the liverlipidome data set.
+
 data( lipidomeR::liverlipidome )
 
 ```
@@ -296,6 +304,7 @@ liverlipidome.wide <-
    )
 
 # Create a mapping of the lipid names.
+
 names.mapping <-
    map_lipid_names( x = unique( liverlipidome$"Lipid_Name" ) )
 
@@ -308,6 +317,7 @@ result.limma <-
        independent.variables = c( "Diagnosis" ),
        F.test = TRUE # Compute an F-test for a factor variable.
    )
+
 # Compute the F-test.
 
 result.limma <-
@@ -340,6 +350,10 @@ result.limma <-
        remap.level.names = TRUE
    )
 
+```
+
+```{r Liverlipidome-Post-Hoc-All, fig.width = 9, fig.height = 12, warning = FALSE}
+
 # Print a figure of all post-hoc comparisons.
 
 figure.output <-
@@ -352,6 +366,10 @@ figure.output <-
     scales = "free",
     space = "free"
 )
+
+```
+
+```{r Liverlipidome-Post-Hoc-Subset, fig.width = 9, fig.height = 9, warning = FALSE}
 
 # Specify the contrasts of the post-hoc comparison that will be included
 # in the figure.

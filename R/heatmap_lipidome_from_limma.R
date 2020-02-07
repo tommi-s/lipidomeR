@@ -1,33 +1,34 @@
-#' Create lipidome-wide heatmaps of model statistics
+#' Create 'lipidomeR' heatmaps of model statistics
 #'
 #' Use this function to creating heatmaps of model statistics from
-#'    the output of the \code{compute_models_with_limma()} function or related
-#'    functions (\code{compute_F_test_with_limma()} and
-#'    \code{compute_post_hoc_tests_with_limma()}).
+#'    the output of the \code{\link{compute_models_with_limma}} function or
+#'    related functions (\code{\link{compute_F_test_with_limma}} and
+#'    \code{\link{compute_post_hoc_test_with_limma}}).
 #' @param x (Required) list of output from
-#'    the \code{compute_models_with_limma()} function or related functions.
+#'    the \code{\link{compute_models_with_limma}} function or related functions.
 #' @param names.mapping (Optional) mapping of lipid names from
-#'    the \code{map_lipid_names()} function.
+#'    the \code{\link{map_lipid_names}} function.
 #' @param axis.x.carbons (Optional) \code{TRUE} or \code{FALSE}: Should
 #'    the lipid size (i.e., number of carbon atoms in the fatty acid chain) be
 #'    presented on the x-axis or y-axis?
 #' @param class.facet (Optional) character string with possible values
-#'    \code{"col"}, \code{"row"} or \code{"wrap"}:
+#'    \code{'col'}, \code{'row'} or \code{'wrap'}:
 #'    Present lipid classes as panels organized into columns, rows or into a
 #'    wrapped layout spanning over multiple rows and columns. The alternative
-#'    \code{"wrap"} is only available with \code{plot.infividual = TRUE}.
-#' @param class.subset 8optional) character vector specifying a subset of
-#'    the lipid classes (e.g., \code{c( "PC", "SM", "TG" )}). Same outcome
+#'    \code{'wrap'} is only available with \code{plot.infividual = TRUE}.
+#' @param class.subset (Optional) character vector specifying a subset of
+#'    the lipid classes (e.g., \code{c( 'PC', 'SM', 'TG' )}). Same outcome
 #'    can be achieved with the argument \code{omit.class}.
 #' @param F.test (Optional) \code{TRUE} or \code{FALSE}: Should the result of
 #'    an F-test be visualized instead of individual model coefficients?
-#'    Result from the function \code{compute_F_test_with_limma()} needs to be
-#'    provided as argument \code{x} for \code{heatmap_lipidome_from_limma()}
-#'    along with the argument \code{F.test = TRUE}.
+#'    Result from the function \code{\link{compute_F_test_with_limma}} needs
+#'    to be provided as argument \code{x} for the
+#'    \code{\link{heatmap_lipidome_from_limma}} function along with
+#'    the argument \code{F.test = TRUE}.
 #' @param omit.class (Optional) character vector of lipid classes omitted from
-#'    the visualization (e.g., \code{c( "PC", "SM", "TG" )}).
+#'    the visualization (e.g., \code{c( 'PC', 'SM', 'TG' )}).
 #' @param omit.factor (Optional) character vector of lipid classes omitted from
-#'    the visualization (e.g., \code{c( "Time" )}).
+#'    the visualization (e.g., \code{c( 'Time' )}).
 #' @param order.factor (Optional) \code{TRUE} or \code{FALSE}: Sort the factor
 #'    panels alphabetically?
 #' @param p.val.thresholds (Optional) numeric vector with increasing values of
@@ -40,7 +41,7 @@
 #' @param p.val.labels (Optional) numeric vector of point characters for the
 #'    p-value highlighting categories specified in the argument
 #'    \code{p.val.thresholds}. The values need to be compatible with
-#'    the function \code{ggplot2::scale_shape_manual()}.
+#'    the function \code{\link[ggplot2]{scale_shape_manual}}.
 #'    If the number of these labels is changed from the default value, also
 #'    the argument \code{p.val.thresholds} needs to be modified to match it.
 #' @param p.val.label.bg.size (Optional) numeric value to scale the size of
@@ -57,8 +58,8 @@
 #'    specific figures for each coefficient of the model? For models with many
 #'    independent variables, this may take some time to complete.
 #' @param plot.all (Optional) \code{TRUE} or \code{FALSE}: Create
-#'    a combined figure of all the coefficients of the model? For models with many
-#'    independent variables, this may lead to too busy a figure.
+#'    a combined figure of all the coefficients of the model? For models with
+#'    many independent variables, this may lead to too busy a figure.
 #' @param print.figure (Optional) \code{TRUE} or \code{FALSE}: Print created
 #'    figure(s) to the standard output? Note that when
 #'    \code{plot.individual = TRUE}, multiple figures will be printed
@@ -82,19 +83,19 @@
 #'    the default value to improve readability in situtions, where there are
 #'    lipid classes with little or no variation in the lipid saturation.
 #' @param scales (Optional) character string with possible values
-#'    \code{"fixed"}, \code{"free"}, \code{"free_x"} or \code{"free_y"}. This
+#'    \code{'fixed'}, \code{'free'}, \code{'free_x'} or \code{'free_y'}. This
 #'    argument specifies, whether the axes in multiple sub-heatmaps will be in
-#'    the same scale (\code{"fixed"}) or in a scale specific to each sub-figure.
-#'    See the function \code{ggplot2::facet_grid()} for details.
+#'    the same scale (\code{'fixed'}) or in a scale specific to each sub-figure.
+#'    See the function \code{\link[ggplot2]{facet_grid}} for details.
 #' @param shadowtext (Optional) \code{TRUE} or \code{FALSE}: Should an
 #'    alternative method of statistical significance highlighting be used in
-#'    the figure? if \code{TRUE}, highlighting will be based on the function
-#'    \code{shadowtext::geom_shadowtext()}.
+#'    the figure? If \code{TRUE}, highlighting will be based on the function
+#'    \code{\link[shadowtext]{geom_shadowtext}}.
 #' @param space (Optional) character string with possible values
-#'    \code{"fixed"}, \code{"free"}, \code{"free_x"} or \code{"free_y"}.
+#'    \code{'fixed'}, \code{'free'}, \code{'free_x'} or \code{'free_y'}.
 #'    This argument specifies, whether the sub-heatmaps will be of identical
-#'    size (\code{"fixed"}) or not.
-#'    See the function \code{ggplot2::facet_grid()} for details.
+#'    size (\code{'fixed'}) or not.
+#'    See the function \code{\link[ggplot2]{facet_grid}} for details.
 #' @param verbose (Optional) \code{TRUE} or \code{FALSE}: Print information
 #'    about the progress of the function call?
 #' @param wrap.contrast.name (Optional) \code{TRUE} or \code{FALSE}: Wrap
@@ -105,9 +106,9 @@
 #' @param survival (Optional) \code{TRUE} or \code{FALSE}: Is the model object
 #'    that is specified as argument \code{x} a survival model?
 #'    (Note: this model type is not yet provided in the package.)
-#' @return List of lipidomeR heatmap figure(s).
-#' @seealso compute_models_with_limma() for computing the argument \code{x}
-#' for this function.
+#' @return List of 'lipidomeR' heatmap figure(s).
+#' @seealso \code{\link{compute_models_with_limma}} for computing the argument
+#'    \code{x} for this function.
 #'
 #' @export
 #'
@@ -146,9 +147,13 @@ heatmap_lipidome_from_limma <-
 
     if ( verbose ) {
 
-      print( "heatmap_lipidome_from_limma was created by Tommi Suvitaival" )
-      print( "tommi.raimo.leo.suvitaival@regionh.dk" )
-      print( "2019-05-21" )
+      tmp <-
+        paste(
+          "heatmap_lipidome_from_limma() was created by Tommi Suvitaival,",
+          "tommi.raimo.leo.suvitaival@regionh.dk"
+        )
+
+      message( tmp )
 
     }
 
@@ -195,7 +200,7 @@ heatmap_lipidome_from_limma <-
 
       if ( is.null( x$"result.F.test" ) ) {
 
-        print( "ERROR: Call compute_F_test_with_limma() first." )
+        stop( "Call compute_F_test_with_limma() first." )
 
         return( NULL )
 
@@ -392,12 +397,16 @@ heatmap_lipidome_from_limma <-
             color =
               ggplot2::guide_legend(
                 order = 2,
-                override.aes = list( size = legend.key.size.multiplier * p.val.label.bg.size )
+                override.aes =
+                  list(
+                    size = legend.key.size.multiplier * p.val.label.bg.size
+                  )
               ),
             shape =
               ggplot2::guide_legend(
                 order = 3,
-                override.aes = list( size = legend.key.size.multiplier * p.val.label.size )
+                override.aes =
+                  list( size = legend.key.size.multiplier * p.val.label.size )
               )
           )
 
@@ -465,7 +474,6 @@ heatmap_lipidome_from_limma <-
       if ( print.figure ) {
 
         print( plot.i )
-        # print( p.val.cat )
 
       }
 
@@ -613,8 +621,13 @@ heatmap_lipidome_from_limma <-
         pvals$"Significant_Coefficient_Sign" <-
           rep( x = NA, times = nrow( pvals ) )
 
-        pvals[ !is.na( pvals$"p.adj.range.pos" ), "Significant_Coefficient_Sign" ] <- "Positive"
-        pvals[ !is.na( pvals$"p.adj.range.neg" ), "Significant_Coefficient_Sign" ] <- "Negative"
+        pvals[
+          !is.na( pvals$"p.adj.range.pos" ), "Significant_Coefficient_Sign"
+          ] <- "Positive"
+
+        pvals[
+          !is.na( pvals$"p.adj.range.neg" ), "Significant_Coefficient_Sign"
+          ] <- "Negative"
 
         pvals$"Significant_Coefficient_Sign" <-
           factor(
@@ -663,11 +676,13 @@ heatmap_lipidome_from_limma <-
       y$"Name.checked" <- make.names( y$"Name" )
 
       y <-
-        merge( x = y,
-               y = names.mapping,
-               by = "Name.checked",
-               all.x = FALSE, # TRUE,
-               all.y = FALSE )
+        merge(
+          x = y,
+          y = names.mapping,
+          by = "Name.checked",
+          all.x = FALSE, # TRUE,
+          all.y = FALSE
+          )
 
       if ( !is.null( omit.class ) ) {
 
@@ -695,23 +710,41 @@ heatmap_lipidome_from_limma <-
 
       ### Heatmap
 
+      if ( is.factor( y$"Factor" ) ) {
+
+        factors.unique <- levels( y$"Factor" )
+
+      } else {
+
+        factors.unique <- unique( as.character( y$"Factor" ) )
+
+      }
+
       if ( plot.individual ) {
 
-        factors.unique <- unique( y$"Factor" )
+        if ( order.factor ) {
+
+          factors.unique <- sort( x = factors.unique, decreasing = FALSE )
+
+        }
 
         if ( plot.all ) {
 
           figures <-
-            vector( mode = "list",
-                    length = length( factors.unique ) + 1 )
+            vector(
+              mode = "list",
+              length = length( factors.unique ) + 1
+            )
 
           names( figures ) <- c( factors.unique, "All" )
 
         } else {
 
           figures <-
-            vector( mode = "list",
-                    length = length( factors.unique ) )
+            vector(
+              mode = "list",
+              length = length( factors.unique )
+            )
 
           names( figures ) <- factors.unique
 
@@ -720,8 +753,10 @@ heatmap_lipidome_from_limma <-
       } else {
 
         figures <-
-          vector( mode = "list",
-                  length = 1 )
+          vector(
+            mode = "list",
+            length = 1
+          )
 
         names( figures ) <- "All"
 
@@ -734,12 +769,16 @@ heatmap_lipidome_from_limma <-
           if ( !is.null( x$"parameters"$"formula.text" ) ) {
 
             printout.formula <-
-              paste( as.character( x$"parameters"$"formula.text" ),
-                     collapse = " " )
+              paste(
+                as.character( x$"parameters"$"formula.text" ),
+                collapse = " "
+              )
 
             printout.formula <-
-              paste( "Model:",
-                     printout.formula )
+              paste(
+                "Model:",
+                printout.formula
+              )
 
             printout.formula <-
               split_formula(
@@ -752,12 +791,16 @@ heatmap_lipidome_from_limma <-
         } else if ( !is.null( x$"formula.text" ) ) {
 
           printout.formula <-
-            paste( as.character( x$"formula.text" ),
-                   collapse = " " )
+            paste(
+              as.character( x$"formula.text" ),
+              collapse = " "
+            )
 
           printout.formula <-
-            paste( "Model:",
-                   printout.formula )
+            paste(
+              "Model:",
+              printout.formula
+            )
 
           printout.formula <-
             split_formula(
@@ -775,7 +818,9 @@ heatmap_lipidome_from_limma <-
 
       if ( plot.individual ) {
 
-        coefs <- sort( unique( x = y$"Factor", decreasing = FALSE ) )
+        # coefs <- sort( unique( x = y$"Factor", decreasing = FALSE ) )
+
+        coefs <- factors.unique
 
         for ( i in 1:length( coefs ) ) {
 
@@ -864,7 +909,9 @@ heatmap_lipidome_from_limma <-
                 vjust = 0.5
               )
             ) +
-            ggplot2::theme( strip.text.y = ggplot2::element_text( angle = 0 ) ) +
+            ggplot2::theme(
+              strip.text.y = ggplot2::element_text( angle = 0 )
+            ) +
             ggplot2::scale_x_continuous(
               breaks = get_integer_breaks,
               expand = ggplot2::expand_scale( mult = 0, add = 0.5 )
@@ -954,13 +1001,19 @@ heatmap_lipidome_from_limma <-
                 color =
                   ggplot2::guide_legend(
                     order = 2,
-                    override.aes = list( size = legend.key.size.multiplier * p.val.label.bg.size ),
+                    override.aes =
+                      list(
+                        size = legend.key.size.multiplier * p.val.label.bg.size
+                      ),
                     title = "Sign of\nSignificant\nCoefficient"
                   ),
                 shape =
                   ggplot2::guide_legend(
                     order = 3,
-                    override.aes = list( size = legend.key.size.multiplier * p.val.label.size ),
+                    override.aes =
+                      list(
+                        size = legend.key.size.multiplier * p.val.label.size
+                      ),
                     title = "P-Value"
                   )
               )
@@ -1014,7 +1067,6 @@ heatmap_lipidome_from_limma <-
           if ( print.figure ) {
 
             print( plot.i )
-            # print( p.val.cat )
 
           }
 
@@ -1159,13 +1211,19 @@ heatmap_lipidome_from_limma <-
               color =
                 ggplot2::guide_legend(
                   order = 2,
-                  override.aes = list( size = legend.key.size.multiplier * p.val.label.bg.size ),
+                  override.aes =
+                    list(
+                      size = legend.key.size.multiplier * p.val.label.bg.size
+                    ),
                   title = "Sign of\nSignificant\nCoefficient"
                 ),
               shape =
                 ggplot2::guide_legend(
                   order = 3,
-                  override.aes = list( size = legend.key.size.multiplier * p.val.label.size ),
+                  override.aes =
+                    list(
+                      size = legend.key.size.multiplier * p.val.label.size
+                    ),
                   title = "P-Value"
                 )
             )
@@ -1209,7 +1267,6 @@ heatmap_lipidome_from_limma <-
         if ( print.figure ) {
 
           print( plot.i )
-          # print( p.val.cat )
 
         }
 

@@ -1,28 +1,27 @@
 Package: lipidomeR
 Type: Package
 Title: Integrative Visualizations of the Lipidome
-Version: 0.1.0.2
-Authors@R: c( person( "Tommi", "Suvitaival", role = c( "aut", "cre" ),
-                      email = "TSUV0001@RegionH.DK" ) 
+Version: 0.1.1
+Authors@R: c( person( "Tommi", "Suvitaival", 
+                      role = c( "aut", "cre" ),
+                      email = "TSUV0001@RegionH.DK",
+                      comment = c( ORCID = "0000-0002-2583-4912" )
+                    ) 
            )
-Description: Create lipidome-wide heatmaps of statistics with the lipidomeR.
-    The lipidomeR provides a streamlined pipeline for systematic 
+Description: Create lipidome-wide heatmaps of statistics with the 'lipidomeR'.
+    The 'lipidomeR' provides a streamlined pipeline for the systematic 
     interpretation of the lipidome through publication-ready visualizations 
     of regression models fitted on lipidomics data. 
-    With lipidomeR, associations between covariates and the lipidome 
+    With 'lipidomeR', associations between covariates and the lipidome 
     can be interpreted systematically and intuitively through heatmaps, where 
-    lipids are organized based on their class, size and level of saturation.
-    With lipidomeR, you can create lipidome-wide heatmaps of 
-    statistical associations, changes or differences. 
-    lipidomeR helps you to immediately understand complex patterns 
-    in high-dimensional lipidomics data. 
-    The heatmaps are provided with publication-ready quality and 
-    the results behind the visualizations are based on rigorous statistical 
-    models. 
-    In lipidomeR heatmaps, lipids are categorized by the lipid class and 
-    presented on a two-dimensional map in terms of their size and 
-    level of saturation, providing a systems-level understanding of changes in 
-    the lipidome.
+    lipids are categorized by the lipid class and are presented on 
+    two-dimensional maps organized by the lipid size and level of saturation. 
+    This way, the 'lipidomeR' helps you gain an immediate understanding of 
+    the multivariate patterns in the lipidome already at first glance.
+    You can create lipidome-wide heatmaps of statistical associations, changes, 
+    differences, variation, or other lipid-specific values.  
+    The heatmaps are provided with publication-ready quality and the results 
+    behind the visualizations are based on rigorous statistical models.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

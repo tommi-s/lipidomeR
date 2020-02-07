@@ -4,18 +4,18 @@
 #'    multiple levels of an independent variable. These comparisons follow
 #'    analysis of variance (ANOVA) or analysis of covariance (ANCOVA).
 #'    The pairwise comparisons are based on a result of an F-test produced by
-#'    the function \code{compute_F_test_with_limma()}.
+#'    the function \code{\link{compute_F_test_with_limma}}.
 #'    To use this function, first call the functions
-#'    \code{compute_models_from_limma()} and
-#'    \code{compute_F_test_with_limma()} consecutively.
+#'    \code{\link{compute_models_with_limma}} and
+#'    \code{\link{compute_F_test_with_limma}} consecutively.
 #'
 #' @param x (Required) list of models for which the test will be done.
 #'    The pairwise comparisons will be computed using the levels of the first
 #'    independent variable that was specified in
 #'    the \code{independent.variables} argument to the
-#'    function \code{compute_models_from_limma()}. The comparisons will be
+#'    function \code{\link{compute_models_with_limma}}. The comparisons will be
 #'    computed for the lipids that had an F-test result of statistical
-#'    significance from the function \code{compute_F_test_with_limma()}.
+#'    significance from the function \code{\link{compute_F_test_with_limma}}.
 #' @param p.adj.threshold (Optional) numeric value specifying the threshold of
 #'    statistical significance in the pairwise comparisons after a correction
 #'    for multiple testing. We recommend to leave this argument unfilled,
@@ -29,9 +29,9 @@
 #' @return List \code{x} supplemented by the results of the pairwise
 #'    post-hoc comparisons.
 #'
-#' @seealso compute_models_with_limma() for the model computation step that is
-#'    required prior to calling this function.
-#' @seealso compute_F_test_with_limma() for the F-test step that is
+#' @seealso \code{\link{compute_models_with_limma}} for the model computation
+#'    step that is required prior to calling this function.
+#' @seealso \code{\link{compute_F_test_with_limma}} for the F-test step that is
 #'    required prior to calling this function.
 #'
 #' @export
@@ -62,9 +62,9 @@ compute_post_hoc_test_with_limma <-
 
     if ( length( names.post.hoc ) == 0 ) {
 
-      print(
+      message(
         paste(
-          "WARNING: No Significant F-test results at p.adj <",
+          "No Significant F-test results at p.adj <",
           p.adj.threshold
         )
       )
@@ -197,13 +197,6 @@ compute_post_hoc_test_with_limma <-
               pattern = mapping.levels[ i, "combination.number" ],
               replacement = mapping.levels[ i, "combination.label" ]
             )
-
-          # colnames( y$"result.post.hoc.test"$"coefficients" ) <-
-          #   stringr::str_replace(
-          #     string = colnames( y$"result.post.hoc.test"$"coefficients" ),
-          #     pattern = mapping.levels[ i, "combination.number" ],
-          #     replacement = mapping.levels[ i, "combination.label" ]
-          #   )
 
         }
 
