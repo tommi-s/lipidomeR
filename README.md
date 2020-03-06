@@ -1,7 +1,7 @@
 lipidomeR
 ================
 Tommi Suvitaival, Steno Diabetes Center Copenhagen, <TSUV0001@RegionH.DK>
-2020-02-07
+2020-03-06
 
 Introduction
 ============
@@ -352,25 +352,17 @@ utils::sessionInfo()
     ## attached base packages:
     ## [1] stats     graphics  grDevices utils     datasets  methods   base     
     ## 
-    ## other attached packages:
-    ## [1] RLinuxModules_0.2
-    ## 
     ## loaded via a namespace (and not attached):
-    ##  [1] Rcpp_1.0.3         compiler_3.6.1     pillar_1.4.2      
-    ##  [4] RColorBrewer_1.1-2 plyr_1.8.5         tools_3.6.1       
-    ##  [7] zeallot_0.1.0      digest_0.6.23      jsonlite_1.6      
-    ## [10] evaluate_0.14      lifecycle_0.1.0    tibble_2.1.3      
-    ## [13] gtable_0.3.0       pkgconfig_2.0.3    rlang_0.4.2       
-    ## [16] rstudioapi_0.10    curl_4.3           yaml_2.2.0        
-    ## [19] xfun_0.9           dplyr_0.8.3        DiagrammeR_1.0.5  
-    ## [22] stringr_1.4.0      knitr_1.24         vctrs_0.2.0       
-    ## [25] htmlwidgets_1.5.1  tidyselect_0.2.5   grid_3.6.1        
-    ## [28] glue_1.3.1         R6_2.4.1           DiagrammeRsvg_0.1 
-    ## [31] rmarkdown_1.18     limma_3.40.6       tidyr_1.0.0       
-    ## [34] farver_2.0.1       purrr_0.3.3        ggplot2_3.2.1     
-    ## [37] reshape2_1.4.3     magrittr_1.5       ellipsis_0.3.0    
-    ## [40] backports_1.1.5    scales_1.1.0       htmltools_0.4.0   
-    ## [43] assertthat_0.2.1   colorspace_1.4-1   labeling_0.3      
-    ## [46] rsvg_1.3           V8_3.0.1           stringi_1.4.5     
-    ## [49] visNetwork_2.0.8   lazyeval_0.2.2     munsell_0.5.0     
-    ## [52] crayon_1.3.4
+    ##  [1] Rcpp_1.0.3         compiler_3.6.1     pillar_1.4.3       RColorBrewer_1.1-2
+    ##  [5] plyr_1.8.5         tools_3.6.1        digest_0.6.25      jsonlite_1.6.1    
+    ##  [9] evaluate_0.14      lifecycle_0.1.0    tibble_2.1.3       gtable_0.3.0      
+    ## [13] pkgconfig_2.0.3    rlang_0.4.4        rstudioapi_0.11    curl_4.3          
+    ## [17] yaml_2.2.1         xfun_0.12          dplyr_0.8.4        DiagrammeR_1.0.5  
+    ## [21] stringr_1.4.0      knitr_1.28         vctrs_0.2.3        htmlwidgets_1.5.1 
+    ## [25] tidyselect_1.0.0   grid_3.6.1         glue_1.3.1         R6_2.4.1          
+    ## [29] DiagrammeRsvg_0.1  rmarkdown_2.1      limma_3.42.2       tidyr_1.0.2       
+    ## [33] farver_2.0.3       purrr_0.3.3        ggplot2_3.2.1      reshape2_1.4.3    
+    ## [37] magrittr_1.5       ellipsis_0.3.0     scales_1.1.0       htmltools_0.4.0   
+    ## [41] assertthat_0.2.1   colorspace_1.4-1   labeling_0.3       rsvg_1.3          
+    ## [45] V8_3.0.1           stringi_1.4.6      visNetwork_2.0.9   lazyeval_0.2.2    
+    ## [49] munsell_0.5.0      crayon_1.3.4

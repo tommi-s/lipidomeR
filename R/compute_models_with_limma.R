@@ -57,6 +57,9 @@ compute_models_with_limma <-
     verbose = TRUE
   ) {
 
+    options.original <- options()
+    on.exit( expr = options( options.original ) )
+
     # Extract independent variables.
 
     design.test <-
@@ -84,8 +87,6 @@ compute_models_with_limma <-
     design.test <- droplevels( design.test )
 
     # Set appropriate contrasts.
-
-    contrasts.original <- options( "contrasts" )$"contrasts"
 
     if ( F.test ) {
 
@@ -249,8 +250,6 @@ compute_models_with_limma <-
       y$"random.effect"$"correlation" <- cFit$"consensus.correlation"
 
     }
-
-    options( contrasts = contrasts.original )
 
     # Fit the Bayesian noise model.
 

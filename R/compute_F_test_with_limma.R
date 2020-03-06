@@ -30,8 +30,6 @@ compute_F_test_with_limma <-
             p.adj.threshold = 0.05,
             print.table = FALSE ) {
 
-    tmp <- options( "contrasts" )
-
     if ( any( x$"parameters"$"contrasts" != "contr.sum" ) ) {
 
       stop( "Call compute_models_with_limma() first with F.test = TRUE." )

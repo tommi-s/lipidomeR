@@ -43,6 +43,9 @@ compute_post_hoc_test_with_limma <-
     remap.level.names = FALSE
   ) {
 
+    options.original <- options()
+    on.exit( expr = options( options.original ) )
+
     # Set appropriate contrasts.
 
     options( contrasts = c( "contr.treatment", "contr.poly" ) )
